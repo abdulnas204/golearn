@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".screens.DepartmentsActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <include
+        android:id="@+id/progress_bar"
+        layout="@layout/default_progress_bar" />
+
+    <LinearLayout
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            xmlns:tools="http://schemas.android.com/tools"
+            tools:listitem="@layout/department_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:paddingTop="2dp"
+            android:clipToPadding="false" />
+        <!--android:paddingBottom="@dimen/ad_bottom_padding"-->
+
+    </LinearLayout>
+
+    <!--<include-->
+        <!--android:id="@+id/ad_layout"-->
+        <!--layout="@layout/banner_departments_activity" />-->
+
+</RelativeLayout>

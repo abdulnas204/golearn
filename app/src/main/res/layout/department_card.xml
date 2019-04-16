@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-4dp"
+        android:layout_marginStart="-6dp"
+        android:layout_marginEnd="-6dp"
+        android:layout_marginBottom="-3.5dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardCornerRadius="@dimen/default_card_radius"
+        app:cardElevation="@dimen/default_card_list_elevation"
+        android:clickable="true"
+        app:cardUseCompatPadding="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--<android.support.v7.widget.AppCompatImageView-->
+                <!--android:id="@+id/short_name_image"-->
+                <!--android:adjustViewBounds="true"-->
+                <!--app:srcCompat="@color/colorPrimary"-->
+                <!--android:layout_width="80dp"-->
+                <!--android:layout_height="match_parent" />-->
+
+            <android.support.design.card.MaterialCardView
+                android:id="@+id/department_name_cv"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="@color/colorPrimary"
+                android:layout_width="80dp"
+                android:layout_height="80dp">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/department_name_tv"
+                    android:text="CS"
+                    app:fontFamily="@font/montserrat_bold"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="28dp"
+                    android:layout_margin="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.card.MaterialCardView>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/card_padding"
+                android:paddingRight="@dimen/card_padding"
+                android:paddingBottom="@dimen/card_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/department"
+                    android:textStyle="bold"
+                    android:textColor="@color/textPrimary"
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="24sp"
+                    android:text="Computer Science"
+                    android:textAllCaps="true"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="vertical"
+                    android:background="@color/gray_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="1.5dp">
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/faculty"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="bold"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="18sp"
+                    android:text="Faculty of Natural Sciences"
+                    android:layout_width="match_parent"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "118271949950",
+    "firebase_url": "https://golearn-bd9b5.firebaseio.com",
+    "project_id": "golearn-bd9b5",
+    "storage_bucket": "golearn-bd9b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:118271949950:android:89db8b402ebb6ef2",
+        "android_client_info": {
+          "package_name": "com.makerloom.golearn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "118271949950-vdon6b83gaek077c2ojecipduug72qpa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA70OczTRXgML0DLj1TEwFpywpwJuhJF6Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "118271949950-vdon6b83gaek077c2ojecipduug72qpa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "118271949950-tdt5akd3ke09dv98vhffuai1ig98675n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.makerloom.golearn"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

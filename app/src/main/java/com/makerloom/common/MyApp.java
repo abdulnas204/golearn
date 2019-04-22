@@ -1,11 +1,9 @@
 package com.makerloom.common;
 
-import android.support.multidex.MultiDexApplication;
-
-import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.makerloom.golearn.utils.Commons;
-import com.makerloom.golearn.utils.QuestionUpdateUtils;
 
+import androidx.multidex.MultiDexApplication;
 import io.paperdb.Paper;
 
 /**
@@ -18,9 +16,15 @@ public class MyApp extends MultiDexApplication {
         super.onCreate();
 
         Paper.init(getApplicationContext());
+
+        // Allow the database work offline
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Commons.enableFirestoreOffline(db);
+
         // Check for new questions every time the app starts
-        QuestionUpdateUtils.Companion.checkForNewQuestions(this);
+        // QuestionUpdateUtils.Companion.checkForNewQuestions(this);
+
         // Subscribe to messages about questions updates
-        FirebaseMessaging.getInstance().subscribeToTopic(Commons.UPDATES_TOPIC_NAME);
+        // FirebaseMessaging.getInstance().subscribeToTopic(Commons.UPDATES_TOPIC_NAME);
     }
 }

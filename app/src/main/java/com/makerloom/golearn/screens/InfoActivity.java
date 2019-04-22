@@ -1,17 +1,16 @@
 package com.makerloom.golearn.screens;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.makerloom.common.activity.MyBackToolbarActivity;
 import com.makerloom.golearn.R;
 
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import in.championswimmer.libsocialbuttons.BtnSocial;
 import mehdi.sakout.fancybuttons.FancyButton;
 

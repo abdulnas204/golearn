@@ -16,7 +16,8 @@
 package com.franmontiel.fullscreendialog;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 /**
  * Interface to control the dialog

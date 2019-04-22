@@ -4,32 +4,19 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GithubAuthProvider;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.makerloom.common.activity.MyBackToolbarActivity;
+import com.makerloom.golearn.R;
 
 import java.util.Arrays;
 import java.util.List;
 
-import com.makerloom.common.utils.Constants;
-import com.makerloom.golearn.R;
-import com.makerloom.golearn.models.UserInfo;
-import com.makerloom.golearn.utils.Commons;
+import androidx.annotation.Nullable;
 
 /**
  * Created by michael on 5/7/18.
@@ -40,17 +27,10 @@ public class AuthActivity extends MyBackToolbarActivity {
 
     List<AuthUI.IdpConfig> providers = Arrays.asList(
             new AuthUI.IdpConfig.GoogleBuilder().build(),
-            new AuthUI.IdpConfig.FacebookBuilder().build(),
+//            new AuthUI.IdpConfig.FacebookBuilder().build(),
 //            new AuthUI.IdpConfig.PhoneBuilder().build(),
             new AuthUI.IdpConfig.EmailBuilder().build()
     );
-
-//    List<AuthUI.IdpConfig> providers = Arrays.asList(
-//            new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
-//            new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build(),
-//            new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build(),
-//            new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build()
-//    );
 
     private static String TAG = AuthActivity.class.getSimpleName();
 
@@ -64,15 +44,9 @@ public class AuthActivity extends MyBackToolbarActivity {
             signIn();
         }
         else {
-            Log.d(TAG, "User object is not null, go to check PIN validity");
-            // Check if user has payed for app
-            checkPINValidity();
+            Log.d(TAG, "User object is not null, go to HomeActivity");
+            goToHome();
         }
-    }
-
-    private void goToUnlockActivity () {
-        startActivity(new Intent(AuthActivity.this, PINActivity.class));
-        finish();
     }
 
     @Override
@@ -84,11 +58,8 @@ public class AuthActivity extends MyBackToolbarActivity {
 
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-                Log.d(TAG, "Signed user in, checking PIN validity");
-
-                checkPINValidity();
+                Log.d(TAG, "Signed user in, go to HomeActivity");
+                goToHome();
             }
             else if (resultCode == RESULT_CANCELED) {
                 Log.d(TAG, "Result cancelled");
@@ -97,7 +68,6 @@ public class AuthActivity extends MyBackToolbarActivity {
             else {
                 Log.d(TAG, "Error signing user in, " +
                         (null != response ? response.getError().getMessage() : ""));
-//                showErrorSigningIn();
                 signIn();
             }
         }
@@ -124,11 +94,7 @@ public class AuthActivity extends MyBackToolbarActivity {
                 .createSignInIntentBuilder()
                 .setIsSmartLockEnabled(true)
                 .setAvailableProviders(providers)
-//                .setTheme(R.style.AuthTheme)
-                .setLogo(R.drawable.ic_logo)
-//                .setTosAndPrivacyPolicyUrls(
-//                        getString(R.string.tos_url),
-//                        getString(R.string.privacy_policy_url))
+                .setLogo(R.drawable.ic_launcher_2x)
                 .build(), RC_SIGN_IN);
     }
 

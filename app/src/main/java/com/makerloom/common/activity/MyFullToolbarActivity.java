@@ -1,10 +1,11 @@
 package com.makerloom.common.activity;
 
-import android.support.annotation.LayoutRes;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.makerloom.golearn.R;
+
+import androidx.annotation.LayoutRes;
 
 /**
  * Created by michael on 2/25/18.

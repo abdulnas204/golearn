@@ -5,8 +5,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,7 +12,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -22,15 +19,16 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.makerloom.common.activity.MyAppCompatActivity;
 import com.makerloom.common.utils.Constants;
 import com.makerloom.golearn.models.PINInfo;
-import com.makerloom.golearn.models.UserInfo;
 import com.makerloom.golearn.utils.Commons;
 
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class CheckPINValidityActivity extends MyAppCompatActivity {
     FirebaseUser user;

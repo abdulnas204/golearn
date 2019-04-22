@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,6 +29,9 @@ import com.takusemba.spotlight.Spotlight;
 
 import java.util.List;
 import java.util.Locale;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by michael on 4/11/18.
@@ -60,8 +61,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseHolder> {
         holder.courseCodeTV.setText(course.getCourseCode());
         holder.courseTitleTV.setText(course.getName());
         holder.cardView.setOnClickListener(holder);
-        // holder.numberOfQuestionsTV.setText(String.valueOf(course.getMaxQuestions()));
-        // holder.timeAllowedTV.setText(String.format(Locale.ENGLISH, "%s minutes", course.getTime()));
+        // holder.contentSummaryTV.setText(String.valueOf(course.getMaxQuestions()));
+        // holder.lastUpdateTV.setText(String.format(Locale.ENGLISH, "%s minutes", course.getTime()));
 
         holder.numberOfQuestionsTV.setText(String.valueOf(TestActivity.numberOfQuestions));
         holder.timeAllowedTV.setText(String.format(Locale.ENGLISH, "%s minutes", TestActivity.timeInMinutes));

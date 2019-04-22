@@ -1,13 +1,14 @@
 package com.makerloom.golearn.holders;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.makerloom.golearn.R;
 import com.makerloom.golearn.models.Question;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by michael on 4/12/18.

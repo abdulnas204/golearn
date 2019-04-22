@@ -2,8 +2,6 @@ package com.makerloom.golearn.adapters;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +12,9 @@ import com.makerloom.golearn.models.Question;
 import com.makerloom.golearn.screens.CorrectionActivity;
 import com.makerloom.golearn.screens.TestActivity;
 import com.makerloom.golearn.utils.TextViewUtils;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by michael on 4/11/18.

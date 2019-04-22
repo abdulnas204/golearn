@@ -1,9 +1,6 @@
 package com.makerloom.golearn.adapters;
 
 import android.content.Context;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +12,10 @@ import com.makerloom.golearn.models.Question;
 import com.makerloom.golearn.utils.TextViewUtils;
 
 import java.util.List;
+
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by michael on 4/12/18.

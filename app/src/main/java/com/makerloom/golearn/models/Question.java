@@ -2,7 +2,6 @@ package com.makerloom.golearn.models;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +11,7 @@ import com.makerloom.golearn.screens.TestActivity;
 
 import java.util.List;
 
+import androidx.appcompat.widget.AppCompatCheckBox;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 /**

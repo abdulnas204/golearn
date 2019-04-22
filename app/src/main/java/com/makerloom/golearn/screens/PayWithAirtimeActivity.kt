@@ -1,7 +1,7 @@
 package com.makerloom.golearn.screens
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.makerloom.golearn.R
 
 class PayWithAirtimeActivity : AppCompatActivity() {

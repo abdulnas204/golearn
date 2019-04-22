@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_marginTop="-4dp"
+        android:layout_marginStart="-4dp"
+        android:layout_marginEnd="-4dp"
+        android:layout_marginBottom="-3.5dp"
+        app:cardCornerRadius="@dimen/default_card_radius"
+        app:cardElevation="@dimen/default_card_list_elevation"
+        android:clickable="true"
+        app:cardUseCompatPadding="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/course_code_cv"
+                app:cardCornerRadius="10dp"
+                android:layout_margin="8dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/colorPrimary"
+                android:layout_width="80dp"
+                android:layout_height="90dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/course_code_tv"
+                    android:text="CSC 102"
+                    app:fontFamily="@font/montserrat_bold"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    android:layout_margin="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:paddingTop="@dimen/card_padding"
+                android:paddingRight="@dimen/card_padding"
+                android:paddingBottom="@dimen/card_padding"
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/code"
+                    android:textStyle="bold"
+                    android:textColor="@color/textPrimary"
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="30sp"
+                    android:text="CS 101"
+                    android:textAllCaps="true"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/course"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="@color/textSecondary"
+                    android:text="Introduction to Computer Science"
+                    android:layout_width="match_parent"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginBottom="5dp"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="vertical"
+                    android:background="@color/gray_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="1.5dp">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/content_summary_tv"
+                        android:text="5 Documents, 12 Videos and 3 Images"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textAllCaps="false"
+                        android:fontFamily="sans-serif"
+                        android:textSize="14sp"
+                        android:layout_marginRight="5dp"
+                        android:textStyle="normal"
+                        android:textColor="@color/gray_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_marginTop="6dp"
+                    android:layout_gravity="end"
+                    android:gravity="end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <mehdi.sakout.fancybuttons.FancyButton
+                        android:id="@+id/send_btn"
+                        android:gravity="end"
+                        android:layout_gravity="end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="0dp"
+                        fancy:fb_borderColor="@color/colorPrimary"
+                        fancy:fb_borderWidth="2dp"
+                        fancy:fb_defaultColor="@color/white"
+                        fancy:fb_focusColor="@color/colorAccent"
+                        fancy:fb_radius="4dp"
+                        android:text="SEND MATERIAL"
+                        android:textSize="16sp"
+                        fancy:fb_textColor="@color/colorPrimary" />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/last_update_tv"
+                        android:text="Updated Yesterday"
+                        android:textStyle="bold"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:layout_marginRight="5dp"
+                        android:fontFamily="sans-serif-light"
+                        android:textAllCaps="false"
+                        android:textSize="14sp"
+                        android:textColor="@color/gray_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

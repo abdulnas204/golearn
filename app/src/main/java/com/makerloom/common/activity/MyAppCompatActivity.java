@@ -2,10 +2,6 @@ package com.makerloom.common.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
 
@@ -13,6 +9,13 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.makerloom.common.startup.IntroActivity;
 import com.makerloom.common.startup.MainActivity;
 import com.makerloom.golearn.R;
+import com.makerloom.golearn.screens.HomeActivity;
+import com.makerloom.golearn.screens.WelcomeActivity;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * Created by michael on 2/25/18.
@@ -73,6 +76,18 @@ public class MyAppCompatActivity extends AppCompatActivity {
 
     public void goToMain () {
         Intent main = new Intent(MyAppCompatActivity.this, MainActivity.class);
+        startActivity(main);
+        finish();
+    }
+
+    public void goToWelcome () {
+        Intent main = new Intent(MyAppCompatActivity.this, WelcomeActivity.class);
+        startActivity(main);
+        finish();
+    }
+
+    public void goToHome () {
+        Intent main = new Intent(MyAppCompatActivity.this, HomeActivity.class);
         startActivity(main);
         finish();
     }

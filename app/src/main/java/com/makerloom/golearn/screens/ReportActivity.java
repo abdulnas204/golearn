@@ -7,8 +7,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,6 +25,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Locale;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 // Removing Ads

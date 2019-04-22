@@ -1,12 +1,12 @@
 package com.makerloom.golearn.holders;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.makerloom.golearn.R;
 import com.makerloom.golearn.screens.TestActivity;
 
+import androidx.recyclerview.widget.RecyclerView;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 /**

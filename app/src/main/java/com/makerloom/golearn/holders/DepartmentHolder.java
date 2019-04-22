@@ -2,17 +2,17 @@ package com.makerloom.golearn.holders;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.card.MaterialCardView;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.card.MaterialCardView;
+import com.makerloom.common.utils.Keys;
 import com.makerloom.golearn.R;
 import com.makerloom.golearn.models.Department;
 import com.makerloom.golearn.screens.CoursesActivity;
-import com.makerloom.common.utils.Keys;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by michael on 4/11/18.

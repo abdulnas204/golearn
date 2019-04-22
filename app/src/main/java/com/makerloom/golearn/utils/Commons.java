@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.makerloom.golearn.screens.WelcomeActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Commons {
     public static final int VALIDITY_MONTHS = 2;
@@ -35,6 +36,9 @@ public class Commons {
     public static final String EXPIRED_PIN_KEY = "EXPIRED_PIN";
 
     public static final int MAX_INSTRUCTION_LENGTH = 200;
+
+    public static final String USER_INFO_COLLECTION_NAME = "userInfo";
+    public static final String UNIVERSITY_INFO_COLLECTION_NAME = "universityInfo";
 
     public static void enableFirestoreOffline (FirebaseFirestore db) {
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()

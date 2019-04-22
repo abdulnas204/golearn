@@ -3,11 +3,8 @@ package com.makerloom.golearn.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,13 +12,12 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
 
-import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.makerloom.golearn.R;
 import com.makerloom.common.activity.MyAppCompatActivity;
 import com.makerloom.common.utils.Constants;
 import com.makerloom.common.utils.Keys;
 import com.makerloom.common.utils.UI;
+import com.makerloom.golearn.R;
 import com.makerloom.golearn.holders.DepartmentHolder;
 import com.makerloom.golearn.models.Department;
 import com.takusemba.spotlight.CustomTarget;
@@ -31,6 +27,9 @@ import com.takusemba.spotlight.Spotlight;
 
 import java.util.List;
 import java.util.Locale;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by michael on 4/11/18.

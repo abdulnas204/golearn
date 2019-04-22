@@ -3,13 +3,13 @@ package com.makerloom.golearn.screens
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.franmontiel.fullscreendialog.FullScreenDialogContent
 import com.franmontiel.fullscreendialog.FullScreenDialogController
 import com.makerloom.golearn.R

@@ -1,10 +1,10 @@
 package com.makerloom.common.activity;
 
-import android.support.annotation.LayoutRes;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
-
 import com.makerloom.golearn.R;
+
+import androidx.annotation.LayoutRes;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * Created by michael on 4/11/18.

@@ -1,8 +1,9 @@
 package com.makerloom.common.activity;
 
-import android.support.annotation.LayoutRes;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import androidx.annotation.LayoutRes;
 
 /**
  * Created by michael on 2/28/18.

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_marginTop="-4dp"
+        android:layout_marginStart="-4dp"
+        android:layout_marginEnd="-4dp"
+        android:layout_marginBottom="-3.5dp"
+        app:cardCornerRadius="@dimen/default_card_radius"
+        app:cardElevation="@dimen/default_card_list_elevation"
+        android:clickable="true"
+        app:cardUseCompatPadding="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/ext_cv"
+                    app:cardCornerRadius="10dp"
+                    android:layout_margin="8dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/md_red_500"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ext_tv"
+                        android:text=".DOCX"
+                        app:fontFamily="@font/montserrat_bold"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="18dp"
+                        android:layout_margin="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/card_padding"
+                    android:paddingRight="@dimen/card_padding"
+                    android:paddingBottom="@dimen/card_padding"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/doc_title_tv"
+                        android:fontFamily="sans-serif-light"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/textSecondary"
+                        android:text="Introduction to Computer Science"
+                        android:layout_width="match_parent"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:layout_marginBottom="5dp"
+                        android:layout_height="wrap_content" />
+
+                    <LinearLayout
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:orientation="vertical"
+                        android:background="@color/gray_light"
+                        android:layout_width="match_parent"
+                        android:layout_height="1.5dp">
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:visibility="visible"
+                        android:layout_marginTop="5dp"
+                        android:weightSum="2"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/last_update_tv"
+                            android:text="Updated Yesterday"
+                            android:textStyle="bold"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_marginRight="5dp"
+                            android:fontFamily="sans-serif-light"
+                            android:textAllCaps="false"
+                            android:textSize="14sp"
+                            android:textColor="@color/gray_dark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+
+                        <mehdi.sakout.fancybuttons.FancyButton
+                            android:id="@+id/get_btn"
+                            android:gravity="end"
+                            android:layout_gravity="end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:paddingTop="6dp"
+                            android:paddingBottom="6dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginRight="0dp"
+                            fancy:fb_borderColor="@color/colorPrimary"
+                            fancy:fb_borderWidth="2dp"
+                            fancy:fb_defaultColor="@color/colorPrimary"
+                            fancy:fb_focusColor="@color/white"
+                            fancy:fb_radius="4dp"
+                            android:text="OPEN"
+                            android:textSize="16sp"
+                            fancy:fb_textColor="@color/white" />
+
+                        <TextView
+                            android:visibility="gone"
+                            android:id="@+id/file_size_tv"
+                            android:text="1.24 MB"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textAllCaps="false"
+                            android:fontFamily="sans-serif"
+                            android:textSize="14sp"
+                            android:layout_marginRight="5dp"
+                            android:textStyle="normal"
+                            android:textColor="@color/gray_dark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:layout_marginTop="6dp"
+                        android:weightSum="2"
+                        android:layout_height="match_parent">
+
+                        <!--<mehdi.sakout.fancybuttons.FancyButton-->
+                            <!--android:id="@+id/get_btn"-->
+                            <!--android:gravity="end"-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:paddingTop="6dp"-->
+                            <!--android:paddingBottom="6dp"-->
+                            <!--android:paddingLeft="8dp"-->
+                            <!--android:paddingRight="8dp"-->
+                            <!--android:layout_marginLeft="0dp"-->
+                            <!--android:layout_marginRight="3dp"-->
+                            <!--fancy:fb_borderColor="@color/colorPrimary"-->
+                            <!--fancy:fb_borderWidth="2dp"-->
+                            <!--fancy:fb_defaultColor="@color/colorPrimary"-->
+                            <!--fancy:fb_focusColor="@color/white"-->
+                            <!--fancy:fb_radius="4dp"-->
+                            <!--android:text="Get"-->
+                            <!--android:textSize="16sp"-->
+                            <!--fancy:fb_textColor="@color/white" />-->
+
+                        <mehdi.sakout.fancybuttons.FancyButton
+                            android:visibility="gone"
+                            android:id="@+id/share_btn"
+                            android:gravity="end"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="6dp"
+                            android:paddingBottom="6dp"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="0dp"
+                            fancy:fb_borderColor="@color/colorPrimary"
+                            fancy:fb_borderWidth="2dp"
+                            fancy:fb_defaultColor="@color/colorPrimary"
+                            fancy:fb_focusColor="@color/white"
+                            fancy:fb_radius="4dp"
+                            android:text="Share"
+                            android:textSize="16sp"
+                            fancy:fb_textColor="@color/white" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/download_progress"
+                android:layout_marginTop="-6dp"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:indeterminateTint="@color/md_blue_400"
+                android:progress="70"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

@@ -2,9 +2,6 @@ package com.makerloom.golearn.screens;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,6 +22,10 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 // Removing Ads
 //import com.google.android.gms.ads.AdView;
@@ -73,11 +74,6 @@ public class CoursesActivity  extends MyBackToolbarActivity {
                 Gson gson = new Gson();
                 String departmentName = getDeptName();
 
-//                InputStream rawInputStream = getResources().openRawResource(R.raw.departments);
-//                Reader reader = new BufferedReader(new InputStreamReader(rawInputStream));
-//
-//                Type listType = new TypeToken<List<Department>>() {}.getType();
-//                List<Department> departments = gson.fromJson(reader, listType);
                 List<Department> departments = DepartmentsFileUtils.Companion
                         .getDeptsFile(CoursesActivity.this);
                 Department department = null;
@@ -104,13 +100,6 @@ public class CoursesActivity  extends MyBackToolbarActivity {
                 }
             }
         });
-
-        // Banner
-        // Removing Ads
-//        adLayout = findViewById(R.id.ad_layout);
-//        adInfo = findViewById(R.id.ad_info);
-//        adView = findViewById(R.id.ad_view);
-//        UI.loadFooterBannerAd(CoursesActivity.this, adLayout, adView, adInfo);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

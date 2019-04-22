@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebSettings
@@ -14,6 +13,7 @@ import android.webkit.WebViewClient
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.makerloom.common.utils.Constants
 import com.makerloom.golearn.R

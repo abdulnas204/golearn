@@ -6,24 +6,25 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.location.Location;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import com.makerloom.common.activity.MyAppCompatActivity;
+import com.makerloom.common.startup.SplashActivity;
+import com.makerloom.golearn.R;
+
+import java.util.Locale;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 
 // Removing Ads
 //import com.google.ads.mediation.admob.AdMobAdapter;
@@ -31,12 +32,6 @@ import android.widget.Toast;
 //import com.google.android.gms.ads.AdRequest;
 //import com.google.android.gms.ads.AdView;
 //import com.google.android.gms.ads.MobileAds;
-import com.makerloom.golearn.R;
-import com.makerloom.common.activity.MyAppCompatActivity;
-import com.makerloom.common.startup.SplashActivity;
-
-import java.util.GregorianCalendar;
-import java.util.Locale;
 
 /**
  * Created by michael on 3/14/18.

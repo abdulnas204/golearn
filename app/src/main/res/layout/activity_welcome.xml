@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
@@ -8,133 +8,82 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".screens.ReportActivity">
+    tools:context=".screens.WelcomeActivity">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
+            layout="@layout/toolbar"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ScrollView
-            android:layout_below="@id/toolbar"
+        <LinearLayout
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toTopOf="@id/signin_btn_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <androidx.cardview.widget.CardView
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                <android.support.v7.widget.CardView
-                    android:background="@color/white"
-                    android:layout_marginBottom="20dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="15dp"
-                    android:layout_gravity="center"
+                <FrameLayout
+                    android:layout_margin="0dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <FrameLayout
-                        android:layout_margin="0dp"
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="150dp"
+                        app:srcCompat="@drawable/ic_launcher_2x"
+                        android:adjustViewBounds="true" />
 
-                        <android.support.v7.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="150dp"
-                            app:srcCompat="@drawable/ic_logo"
-                            android:adjustViewBounds="true" />
+                </FrameLayout>
 
-                    </FrameLayout>
+            </androidx.cardview.widget.CardView>
 
-                </android.support.v7.widget.CardView>
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/motto"
-                    android:text="@string/motto"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_marginBottom="25dp"
-                    android:textSize="18sp"
-                    android:maxWidth="250dp"
-                    android:textStyle="normal"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/signin_btn_container"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-                <!--<include-->
-                    <!--layout="@layout/social_links" />-->
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/signin_btn"
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/custom_big_btn_padding_vertical"
+                android:paddingBottom="@dimen/custom_big_btn_padding_vertical"
+                android:paddingLeft="@dimen/custom_big_btn_padding_horizontal"
+                android:paddingRight="@dimen/custom_big_btn_padding_horizontal"
+                android:layout_margin="@dimen/custom_big_btn_margin"
+                fancy:fb_borderColor="@color/colorPrimary"
+                fancy:fb_borderWidth="2dp"
+                fancy:fb_defaultColor="@color/colorPrimary"
+                fancy:fb_focusColor="@color/white"
+                fancy:fb_radius="@dimen/custom_big_btn_radius"
+                android:text="Sign In"
+                android:textAllCaps="true"
+                android:textSize="@dimen/custom_big_btn_text_size"
+                fancy:fb_textColor="@color/white" />
 
-                <!--<include-->
-                    <!--android:id="@+id/tip_btn"-->
-                    <!--layout="@layout/cta_btn" />-->
+        </LinearLayout>
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <mehdi.sakout.fancybuttons.FancyButton
-                        android:id="@+id/signin_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="20dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        fancy:fb_borderColor="@color/colorPrimary"
-                        fancy:fb_borderWidth="2dp"
-                        fancy:fb_defaultColor="@color/colorPrimary"
-                        fancy:fb_focusColor="@color/white"
-                        fancy:fb_radius="5dp"
-                        android:text="Sign In"
-                        android:textAllCaps="true"
-                        android:textSize="18sp"
-                        fancy:fb_textColor="@color/white" />
-                    <!--fancy:fb_iconPaddingRight="10dp"-->
-                    <!--fancy:fb_iconPosition="left"-->
-                    <!--fancy:fb_fontIconSize="24sp"-->
-                    <!--fancy:fb_fontIconResource="&#xf090;"-->
-
-                    <mehdi.sakout.fancybuttons.FancyButton
-                        android:id="@+id/info_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="5dp"
-                        fancy:fb_borderColor="@color/colorPrimary"
-                        fancy:fb_borderWidth="2dp"
-                        fancy:fb_defaultColor="@color/white"
-                        fancy:fb_focusColor="@color/colorAccent"
-                        fancy:fb_radius="5dp"
-                        android:text="@string/action_info"
-                        android:textAllCaps="false"
-                        fancy:fb_iconPaddingRight="12dp"
-                        fancy:fb_iconPosition="left"
-                        fancy:fb_fontIconSize="24sp"
-                        fancy:fb_fontIconResource="&#xf129;"
-                        android:textSize="18sp"
-                        fancy:fb_textColor="@color/colorPrimary" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </ScrollView>
-
-    </RelativeLayout>
-
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

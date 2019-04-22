@@ -1,6 +1,7 @@
 package com.makerloom.golearn.screens;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class WelcomeActivity extends MyPlainToolbarActivity {
         setContentView(R.layout.activity_welcome);
 
         signInBtn = findViewById(R.id.signin_btn);
+        signInBtn.getTextViewObject().setTypeface(Typeface.DEFAULT_BOLD);
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

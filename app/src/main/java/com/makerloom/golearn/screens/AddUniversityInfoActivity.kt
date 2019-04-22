@@ -1,5 +1,6 @@
 package com.makerloom.golearn.screens
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
@@ -52,6 +53,7 @@ class AddUniversityInfoActivity : MyPlainToolbarActivity(), SubmitActivity {
 
         val user = FirebaseAuth.getInstance().currentUser
         val submitBtn: FancyButton = findViewById(R.id.submit_btn)
+        submitBtn.textViewObject.typeface = Typeface.DEFAULT_BOLD
         enableBtn(submitBtn)
 
         submitBtn.setOnClickListener {

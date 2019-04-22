@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:orderInCategory="200"
+        android:id="@+id/edit_uni_info"
+        android:icon="@drawable/ic_school_black_24dp"
+        android:title="Edit University Info" />
+
+    <item
+        android:orderInCategory="100"
+        android:id="@+id/edit_user_info"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="Edit User Info" />
+
+    <item
+        android:orderInCategory="300"
+        android:id="@+id/sign_out"
+        android:icon="@drawable/ic_launch_black_24dp"
+        android:title="Sign Out" />
+
+</menu>

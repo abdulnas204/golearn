@@ -1,14 +1,20 @@
 package com.makerloom.golearn.screens.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
 import com.makerloom.golearn.R
+import com.makerloom.golearn.screens.AddUniversityInfoActivity
+import com.makerloom.golearn.screens.AddUserInfoActivity
 import com.makerloom.golearn.screens.HomeActivity
+import com.makerloom.golearn.screens.WelcomeActivity
+import mehdi.sakout.fancybuttons.FancyButton
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -49,6 +55,33 @@ class SettingsFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val editUniBtn = view.findViewById<FancyButton>(R.id.edit_uni_info_btn)
+        editUniBtn.setOnClickListener {
+            startActivity(Intent(this@SettingsFragment.activity, AddUniversityInfoActivity::class.java))
+        }
+
+        val editUserBtn = view.findViewById<FancyButton>(R.id.edit_user_info_btn)
+        editUserBtn.setOnClickListener {
+            startActivity(Intent(this@SettingsFragment.activity, AddUserInfoActivity::class.java))
+        }
+
+        val signOutBtn = view.findViewById<FancyButton>(R.id.sign_out_btn)
+        signOutBtn.setOnClickListener {
+            try {
+                FirebaseAuth.getInstance().signOut()
+            }
+            catch (ex: Exception) {
+                ex.printStackTrace()
+            }
+            finally {
+                startActivity(Intent(this@SettingsFragment.activity, WelcomeActivity::class.java))
+            }
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

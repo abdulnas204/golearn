@@ -150,6 +150,17 @@ public class SHAREthemService extends Service {
         return START_NOT_STICKY;
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private String createNotificationChannel (String channelId, String channelName) {
+        NotificationChannel chan = new NotificationChannel(channelId,
+                channelName, NotificationManager.IMPORTANCE_NONE);
+        chan.setLightColor(getColor(R.color.colorPrimary));
+        chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        NotificationManager service = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        service.createNotificationChannel(chan);
+        return channelId;
+    }
+
     private void disableHotspotAndStop() {
         Log.d(TAG, "p2p service stop action received..");
         if (null != hotspotControl)
@@ -163,17 +174,6 @@ public class SHAREthemService extends Service {
         stopSelf();
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private String createNotificationChannel (String channelId, String channelName) {
-        NotificationChannel chan = new NotificationChannel(channelId,
-                channelName, NotificationManager.IMPORTANCE_NONE);
-        chan.setLightColor(getColor(R.color.colorPrimary));
-        chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
-        NotificationManager service = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        service.createNotificationChannel(chan);
-        return channelId;
-    }
-
     /**
      * Creates a Notification for {@link Service#startForeground(int, Notification)} method.
      * Adds text passed in <code>text</code> param as content and title
@@ -185,7 +185,6 @@ public class SHAREthemService extends Service {
     private Notification getShareThemNotification(String text, boolean addStopAction) {
         Intent notificationIntent = new Intent(getApplicationContext(),
                 SHAREthemActivity.class);
-
         String channelId = "";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             channelId = createNotificationChannel("my_service", "SHAREthemService");
@@ -283,7 +282,7 @@ public class SHAREthemService extends Service {
         if (TextUtils.isEmpty(androidId))
             androidId = "";
         else
-            androidId = androidId.length() <= 3 ? androidId : androidId.substring(androidId.length() - 3, androidId.length());
+            androidId = androidId.length() <= 3 ? androidId : androidId.substring(androidId.length() - 3);
         return DEFAULT_SENDER_NAME + androidId;
     }
 

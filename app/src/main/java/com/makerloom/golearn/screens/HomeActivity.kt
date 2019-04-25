@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.webkit.MimeTypeMap
 import android.widget.Toast
@@ -23,13 +24,13 @@ import com.github.angads25.filepicker.view.FilePickerDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.makerloom.common.MyApp
 import com.makerloom.common.activity.MyPlainToolbarActivity
 import com.makerloom.golearn.R
 import com.makerloom.golearn.models.Course
 import com.makerloom.golearn.models.UniversityInfo
 import com.makerloom.golearn.models.UserInfo
 import com.makerloom.golearn.screens.fragments.*
-import com.makerloom.golearn.utils.UserUtils
 import com.ncapdevi.fragnav.FragNavController
 import com.tml.sharethem.receiver.ReceiverActivity
 import com.tml.sharethem.sender.SHAREthemActivity
@@ -60,78 +61,106 @@ class HomeActivity : MyPlainToolbarActivity(),
     }
 
     fun checkUserAndUniInfo (user: FirebaseUser, savedInstanceState: Bundle?) {
-        val pDialog = buildCheckSignInProgressDialog()
+        setupFragments(savedInstanceState)
 
-        // Try to retrieve user and university information
-        var userInfo: UserInfo? = null
-        var userInfoDone = false
+//        val pDialog = buildCheckSignInProgressDialog()
+//
+//        // Try to retrieve user and university information
+//        var userInfo: UserPINInfo? = null
+//        var userInfoDone = false
+//
+//        var uniInfo: UniversityInfo? = null
+//        var uniInfoDone = false
+//
+//        val then = Runnable {
+//            if (isRetrieveDoneAndSuccessful(userInfo, userInfoDone, uniInfo, uniInfoDone)) {
+//                try { pDialog.dismiss() }
+//                catch (ex: Exception) { ex.printStackTrace() }
+//
+//                setupFragments(savedInstanceState)
+//            }
+//            else  {
+//                pDialog.hide()
+//                val aDialog = buildBadConnectionDialog(object: DialogCallback {
+//                    // Try Again
+//                    override fun onPositiveButtonClick() {
+//                        checkUserAndUniInfo(user, savedInstanceState)
+//                        return
+//                    }
+//
+//                    // Continue
+//                    override fun onNeutralButtonClick() {
+//                        super.onNeutralButtonClick()
+//                        setupFragments(savedInstanceState)
+//                    }
+//                })
+//                aDialog.show()
+//            }
+//        }
+//
+//        UserUtils.getUserInfo(user, object: UserUtils.UserInfoCallback {
+//            override fun onFailure(ex: Exception) {
+//                userInfoDone = true
+//                then.run()
+//            }
+//
+//            override fun onSuccess(_userInfo: UserPINInfo?) {
+//                if (_userInfo != null) {
+//                    userInfo = _userInfo!!
+//                    userInfoDone = true
+//                    then.run()
+//                }
+//                else {
+//                    // Take user to fill in information
+//                    goToAddUserInfo()
+//                }
+//            }
+//        })
+//
+//        UserUtils.getUniversityInfo(user, object: UserUtils.UniversityInfoCallback {
+//            override fun onFailure(ex: Exception) {
+//                uniInfoDone = false
+//                then.run()
+//            }
+//
+//            override fun onSuccess(universityInfo: UniversityInfo?) {
+//                if (universityInfo != null) {
+//                    uniInfo = universityInfo!!
+//                    uniInfoDone = false
+//                    then.run()
+//                }
+//                else {
+//                    // Take user to fill in university information
+//                    goToAddUniInfo()
+//                }
+//            }
+//        })
+    }
 
-        var uniInfo: UniversityInfo? = null
-        var uniInfoDone = false
+    fun restartFragment () {
+        val curr = fragNavController.currentFrag
+        var nFrag: Fragment? = null
 
-        val then = Runnable {
-            if (isRetrieveDoneAndSuccessful(userInfo, userInfoDone, uniInfo, uniInfoDone)) {
-                try { pDialog.dismiss() }
-                catch (ex: Exception) { ex.printStackTrace() }
-
-                setupFragments(savedInstanceState)
-            }
-            else  {
-                pDialog.hide()
-                val aDialog = buildBadConnectionDialog(object: DialogCallback {
-                    // Try Again
-                    override fun onPositiveButtonClick() {
-                        checkUserAndUniInfo(user, savedInstanceState)
-                        return
-                    }
-
-                    // Continue
-                    override fun onNeutralButtonClick() {
-                        super.onNeutralButtonClick()
-                        setupFragments(savedInstanceState)
-                    }
-                })
-                aDialog.show()
-            }
+        if (curr is MediaFragment) {
+            nFrag = MediaFragment.newInstance()
+        }
+        else if (curr is DocumentsFragment) {
+            nFrag = DocumentsFragment.newInstance(curr.param1!!, curr.param2!!)
+        }
+        else if (curr is CoursesFragment) {
+            nFrag = CoursesFragment.newInstance()
+        }
+        else if (curr is SettingsFragment) {
+            nFrag = SettingsFragment.newInstance()
+        }
+        else if (curr is TimeTableFragment) {
+            nFrag = TimeTableFragment.newInstance()
         }
 
-        UserUtils.getUserInfo(user, object: UserUtils.UserInfoCallback {
-            override fun onFailure(ex: Exception) {
-                userInfoDone = true
-                then.run()
-            }
-
-            override fun onSuccess(_userInfo: UserInfo?) {
-                if (_userInfo != null) {
-                    userInfo = _userInfo!!
-                    userInfoDone = true
-                    then.run()
-                }
-                else {
-                    // Take user to fill in information
-                    goToAddUserInfo()
-                }
-            }
-        })
-
-        UserUtils.getUniversityInfo(user, object: UserUtils.UniversityInfoCallback {
-            override fun onFailure(ex: Exception) {
-                uniInfoDone = false
-                then.run()
-            }
-
-            override fun onSuccess(universityInfo: UniversityInfo?) {
-                if (universityInfo != null) {
-                    uniInfo = universityInfo!!
-                    uniInfoDone = false
-                    then.run()
-                }
-                else {
-                    // Take user to fill in university information
-                    goToAddUniInfo()
-                }
-            }
-        })
+        if (nFrag != null) {
+            fragNavController.popFragment()
+            fragNavController.pushFragment(nFrag)
+        }
     }
 
     fun goToAddUserInfo () {
@@ -144,6 +173,11 @@ class HomeActivity : MyPlainToolbarActivity(),
 
     fun checkUserSignedIn (savedInstanceState: Bundle?) {
         val user = FirebaseAuth.getInstance().currentUser
+
+        if (MyApp.useWithoutSignIn) {
+            setupFragments(savedInstanceState)
+            return
+        }
 
         // Make user to sign in if user object is null
         if (null == user) {
@@ -315,7 +349,7 @@ class HomeActivity : MyPlainToolbarActivity(),
         var mimeType: String? = null
 
         if (uri.scheme == ContentResolver.SCHEME_CONTENT) {
-            val cr = this.getContentResolver()
+            val cr = this.contentResolver
             mimeType = cr.getType(uri)
         }
         else {
@@ -376,26 +410,44 @@ class HomeActivity : MyPlainToolbarActivity(),
 
     private var dialog: FilePickerDialog? = null
 
-    fun sendFiles(view: View) {
+    fun sendFiles(view: View, course: Course) {
         if (Utils.isShareServiceRunning(applicationContext)) {
             startActivity(Intent(applicationContext, SHAREthemActivity::class.java))
+            return
+        }
+
+        if (course.hasCourseDir() && !File(course.courseDir, "Documents").exists()) {
+            Toast.makeText(this@HomeActivity,
+                    "You don't have any course material for ${course.courseCode} yet.", Toast.LENGTH_LONG)
+                    .show()
             return
         }
 
         val properties = DialogProperties()
         properties.selection_mode = DialogConfigs.MULTI_MODE
         properties.selection_type = DialogConfigs.FILE_SELECT
-        properties.root = File(DialogConfigs.DEFAULT_DIR)
+        properties.root = if (course.hasCourseDir()) File(course.courseDir, "Documents")
+            else File(DialogConfigs.DEFAULT_DIR)
         properties.error_dir = File(DialogConfigs.DEFAULT_DIR)
         properties.extensions = null
 
         dialog = FilePickerDialog(this, properties)
+
         dialog?.apply {
-            setTitle("Select files to share")
+            setTitle("Select ${course.courseCode} Course Material to Send")
+
+            if (course.hasCourseDir()) {
+                val filesToBeMarked = ArrayList<String>()
+                File(course.courseDir, "Documents").listFiles { dir, name ->
+                    filesToBeMarked.add(File(dir, name).absolutePath)
+                }
+                Log.d(TAG, filesToBeMarked.toString())
+                markFiles(filesToBeMarked)
+            }
 
             setDialogSelectionListener(object : DialogSelectionListener {
                 override fun onSelectedFilePaths(files: Array<String>?) {
-                    if (null == files || files.size == 0) {
+                    if (null == files || files.isEmpty()) {
                         Toast.makeText(this@HomeActivity, "Select at least one file to start Share Mode", Toast.LENGTH_SHORT).show()
                         return
                     }
@@ -413,28 +465,51 @@ class HomeActivity : MyPlainToolbarActivity(),
             })
 
             show()
+
+            // Hide directory path
+            findViewById<View?>(R.id.dir_path)
+                    ?.visibility = View.GONE
         }
     }
+
+    var openedReceiveActivity = false
 
     fun receiveFiles(view: View) {
         val hotspotControl = HotspotControl.getInstance(applicationContext)
 
         if (null != hotspotControl && hotspotControl.isEnabled) {
             val builder = AlertDialog.Builder(this)
-            builder.setMessage("Sender(Hotspot) mode is active. Please disable it to proceed with Receiver mode")
-            builder.setNeutralButton("OK", DialogInterface.OnClickListener { dialogInterface, i -> dialogInterface.cancel() })
+            builder.setMessage("Sender (Hotspot) mode is active. Please disable it to proceed with Receiver mode")
+            builder.setNeutralButton("OK", DialogInterface.OnClickListener {
+                dialogInterface, i -> dialogInterface.cancel()
+            })
             builder.show()
             return
         }
 
+        openedReceiveActivity = true
         startActivity(Intent(applicationContext, ReceiverActivity::class.java))
+    }
+
+    fun moveFiles () {
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (openedReceiveActivity) {
+            moveFiles()
+            openedReceiveActivity = false
+            restartActivity()
+        }
     }
 
     //Add this method to show Dialog when the required permission has been granted to the app.
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             FilePickerDialog.EXTERNAL_READ_PERMISSION_GRANT -> {
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (dialog != null) {
                         // Show dialog if the read permission has been granted.
                         dialog!!.show()

@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.makerloom.common.MyApp;
 import com.makerloom.golearn.screens.WelcomeActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -66,16 +67,13 @@ public class Commons {
         }
 
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            return true;
-        }
+        return networkInfo != null && networkInfo.isConnected();
 
-        return false;
     }
 
     public static void goToWelcomeIfNotSignedIn (Context context) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (null == user) {
+        if (null == user && !MyApp.useWithoutSignIn) {
             Intent welcome = new Intent(context, WelcomeActivity.class);
             welcome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(welcome);

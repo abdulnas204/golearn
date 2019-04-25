@@ -1,6 +1,7 @@
 package com.makerloom.golearn.models;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.makerloom.golearn.utils.QuestionsFilesUtils;
 
@@ -16,6 +17,8 @@ public class Course {
     private Integer maxQuestions = 50;
 
     private Integer time = 30;
+
+    private String courseDir;
 
     public Integer getTime() {
         return time;
@@ -34,8 +37,13 @@ public class Course {
     }
 
     public Course (String courseCode, String name) {
-        this.courseCode = courseCode;
+        this(courseCode);
         this.name = name;
+    }
+
+    public Course (String courseCode, String name, String courseDir) {
+        this(courseCode, name);
+        this.courseDir = courseDir;
     }
 
     public Course (String courseCode) {
@@ -43,14 +51,20 @@ public class Course {
         this.name = this.courseCode;
     }
 
-//    public Course () {}
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCourseDir() {
+        return courseDir;
+    }
+
+    public Boolean hasCourseDir () {
+        return !TextUtils.isEmpty(getCourseDir());
     }
 
     public String getCourseCode() {
@@ -66,15 +80,6 @@ public class Course {
     }
 
     public Test generateTest (Context context, int questionLen) {
-//        String filename = "questions_" + getCourseCode().replace(" ", "").toLowerCase(Locale.ENGLISH);
-//
-//        Gson gson = new Gson();
-//
-//        InputStream rawInputStream = context.getResources().openRawResource(
-//                context.getResources().getIdentifier(filename, "raw", context.getPackageName()));
-//        Reader reader = new BufferedReader(new InputStreamReader(rawInputStream));
-//
-//        Questions questions = gson.fromJson(reader, Questions.class);
         Questions questions = QuestionsFilesUtils.Companion.getQuestionsFile(context, getCourseCode());
         questions.prepare(questionLen);
 

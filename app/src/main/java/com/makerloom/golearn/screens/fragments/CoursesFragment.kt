@@ -5,11 +5,11 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -57,25 +57,6 @@ class CoursesFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
-
-        Dexter.withActivity(this@CoursesFragment.activity)
-                .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .withListener(object: MultiplePermissionsListener {
-                    override fun onPermissionRationaleShouldBeShown(permissions: MutableList<PermissionRequest>?, token: PermissionToken?) {
-                        token?.continuePermissionRequest()
-                    }
-
-                    override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-                        if (report != null && report.areAllPermissionsGranted()) {
-                            hasStoragePermission = true
-                            courses = getCourses()
-                        }
-                    }
-                }).check()
-
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -99,7 +80,7 @@ class CoursesFragment : Fragment() {
 
             Log.d(TAG, "$courseCode, $courseName")
 
-            courses.add(Course(courseCode, courseName))
+            courses.add(Course(courseCode, courseName, File(dir, name).absolutePath))
         }
 
         return courses
@@ -110,6 +91,25 @@ class CoursesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Dexter.withActivity(this@CoursesFragment.activity)
+                .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(object: MultiplePermissionsListener {
+                    override fun onPermissionRationaleShouldBeShown(permissions: MutableList<PermissionRequest>?, token: PermissionToken?) {
+                        token?.continuePermissionRequest()
+                    }
+
+                    override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                        if (report != null && report.areAllPermissionsGranted()) {
+                            hasStoragePermission = true
+                            courses = getCourses()
+                            initViews(view)
+                        }
+                    }
+                }).check()
+    }
+
+    fun initViews (view: View) {
         if (hasStoragePermission) {
             val manager = LinearLayoutManager(this@CoursesFragment.context)
             val adapter = GCourseAdapter(this@CoursesFragment.context, courses)
@@ -120,37 +120,21 @@ class CoursesFragment : Fragment() {
                 layoutManager = manager
             }
 
-            Handler().postDelayed({
-//                FragmentStack.of(this@CoursesFragment).add(DocumentsFragment.newInstance())
-            }, 5000)
+            val emptyMessage = view.findViewById<TextView>(R.id.empty_message)
+            if (null == courses || courses!!.isEmpty()) {
+                emptyMessage.visibility = View.VISIBLE
+                courseRV?.visibility = View.GONE
+            }
         }
 
         receiveBtn = view.findViewById(R.id.receive_btn)
-        receiveBtn?.setText("RECEIVE MATERIAL")
-        receiveBtn?.setOnClickListener {
-            (this@CoursesFragment.activity as HomeActivity).receiveFiles(it)
+        receiveBtn?.apply {
+            visibility = View.VISIBLE
+            // setText("RECEIVE MATERIAL")
+            setOnClickListener {
+                (this@CoursesFragment.activity as HomeActivity).receiveFiles(it)
+            }
         }
-    }
-
-    fun initReceive () {
-
-    }
-
-    fun initSend () {
-
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-//        FragmentStack.register(this, R.id.fragment_root,
-//                DocumentsFragment.newInstance())
-    }
-
-    override fun onDestroy() {
-//        FragmentStack.unregister(this)
-
-        super.onDestroy()
     }
 
     override fun onResume() {

@@ -44,12 +44,6 @@ public class GCourseHolder extends RecyclerView.ViewHolder implements View.OnCli
         codeCV = view.findViewById(R.id.course_code_cv);
         sendBtn = view.findViewById(R.id.send_btn);
         sendBtn.getTextViewObject().setTypeface(Typeface.DEFAULT_BOLD);
-        sendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((HomeActivity) GCourseHolder.this.context).sendFiles(v);
-            }
-        });
 
         this.context = context;
     }

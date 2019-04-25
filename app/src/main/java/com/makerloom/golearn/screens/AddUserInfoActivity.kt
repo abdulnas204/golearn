@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -28,6 +29,21 @@ class AddUserInfoActivity : MyPlainToolbarActivity(), SubmitActivity {
         val lNameET: EditText = findViewById(R.id.lname_et)
 
         val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            try {
+                val fName = it.displayName!!.split(" ")[0]
+                val lName = it.displayName!!.split(" ")[1]
+
+                Log.d(TAG, "firstName = $fName, lastName = $lName")
+
+                fNameET.setText(fName)
+                lNameET.setText(lName)
+            }
+            catch (ex: Exception) {
+                ex.printStackTrace()
+            }
+        }
+
         val submitBtn: FancyButton = findViewById(R.id.submit_btn)
         submitBtn.textViewObject.typeface = Typeface.DEFAULT_BOLD
         enableBtn(submitBtn)
@@ -70,5 +86,9 @@ class AddUserInfoActivity : MyPlainToolbarActivity(), SubmitActivity {
         val intent = Intent(this, AddUniversityInfoActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    companion object {
+        val TAG = AddUserInfoActivity::class.java.simpleName
     }
 }

@@ -50,6 +50,7 @@
                         android:textColor="@color/gray"
                         android:text="@string/info"
                         android:textSize="16sp" />
+                    <!--android:text="@string/p2p_sender_hint_wifi_connected_barcode"-->
 
                 </LinearLayout>
 

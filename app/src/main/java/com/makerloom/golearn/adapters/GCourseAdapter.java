@@ -20,6 +20,8 @@ import com.makerloom.common.utils.UI;
 import com.makerloom.golearn.R;
 import com.makerloom.golearn.holders.GCourseHolder;
 import com.makerloom.golearn.models.Course;
+import com.makerloom.golearn.screens.HomeActivity;
+import com.makerloom.golearn.utils.CourseMaterialUtils;
 import com.takusemba.spotlight.CustomTarget;
 import com.takusemba.spotlight.OnSpotlightEndedListener;
 import com.takusemba.spotlight.OnSpotlightStartedListener;
@@ -61,18 +63,25 @@ public class GCourseAdapter extends RecyclerView.Adapter<GCourseHolder> {
         holder.courseTitleTV.setText(course.getName());
         holder.cardView.setOnClickListener(holder);
 
-        holder.contentSummaryTV.setText("5 Documents, 12 Videos and 3 Images");
-        holder.lastUpdateTV.setText("Updated Yesterday");
+        holder.contentSummaryTV.setText(CourseMaterialUtils.Companion.getContentSummary(course));
+        holder.lastUpdateTV.setText(CourseMaterialUtils.Companion.getLastUpdate(course));
 
         holder.codeTV.setText(course.getCourseCode());
         holder.codeCV.setCardBackgroundColor((ColorGenerator.MATERIAL.getColor(course.getCourseCode())));
 
+        holder.sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((HomeActivity) GCourseAdapter.this.context).sendFiles(v, course);
+            }
+        });
+
         if (position == 0) {
-            setSpotlightRunnable(holder);
+            // setSpotlightRunnable(holder);
         }
 
         if (position == courses.size() - 1) {
-            runSpotlightRunnable();
+            // runSpotlightRunnable();
         }
     }
 

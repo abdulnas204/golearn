@@ -57,7 +57,10 @@ public class GDocAdapter extends RecyclerView.Adapter<GDocHolder> {
 
         holder.setDocument(doc);
 
-        holder.docTitleTV.setText(doc.getTitle());
+        holder.docTitleTV.setText(doc.getTitle().replace("_", " ")
+                        .replace(" - ", "___")
+                        .replace("-", " ")
+                        .replace("___", " - "));
         holder.fileSizeTV.setText(Long.toString(doc.getFileSize()));
         holder.cardView.setOnClickListener(holder);
 
@@ -67,11 +70,11 @@ public class GDocAdapter extends RecyclerView.Adapter<GDocHolder> {
         holder.extCV.setCardBackgroundColor(DocColorUtils.Companion.getColorForExt(context, doc.getExt()));
 
         if (position == 0) {
-            setSpotlightRunnable(holder);
+            // setSpotlightRunnable(holder);
         }
 
         if (position == docs.size() - 1) {
-            runSpotlightRunnable();
+            // runSpotlightRunnable();
         }
     }
 

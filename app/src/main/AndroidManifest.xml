@@ -5,13 +5,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -23,6 +23,45 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
+        <activity
+            android:name="com.makerloom.common.startup.SplashActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- android:configChanges="keyboardHidden|orientation" -->
+        <activity
+            android:name=".screens.AddCourseMaterialActivity"
+            android:label="@string/title_activity_add_course_material"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".screens.AddCourseActivity"
+            android:label="@string/title_activity_add_course"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".screens.ScanActivity"
+            android:label="@string/title_activity_scan"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -37,25 +76,20 @@
         <activity
             android:name=".screens.HomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.tml.sharethem.sender.SHAREthemActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name="com.tml.sharethem.receiver.ReceiverActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <service
-            android:name="com.tml.sharethem.sender.SHAREthemService" />
+        <service android:name="com.tml.sharethem.sender.SHAREthemService" />
 
         <activity
             android:name=".screens.AddUserInfoActivity"
             android:label="@string/title_activity_add_user_info"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".screens.AddUniversityInfoActivity"
             android:label="@string/title_activity_add_uni_info"
@@ -65,19 +99,6 @@
             android:name=".services.AlarmReceiver"
             android:enabled="true"
             android:exported="true" />
-
-        <activity
-            android:name="com.makerloom.common.startup.SplashActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity> <!-- android:configChanges="keyboardHidden|orientation" -->
 
         <activity
             android:name="com.makerloom.common.startup.IntroActivity"

@@ -8,7 +8,7 @@
     tools:context=".screens.HomeActivity"
     xmlns:fancy="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <RelativeLayout
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,6 +16,18 @@
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="0dp">
+
+        <TextView
+            android:id="@+id/empty_message"
+            android:visibility="gone"
+            android:padding="32dp"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:text="You don't have any course material yet."
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -28,7 +40,7 @@
             tools:listitem="@layout/g_course_card"
             android:clipToPadding="false" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/receive_btn_container"
@@ -50,6 +62,8 @@
             fancy:fb_borderWidth="2dp"
             fancy:fb_defaultColor="@color/colorPrimary"
             fancy:fb_focusColor="@color/white"
+            fancy:fb_iconPaddingRight="8dp"
+            fancy:fb_iconResource="@drawable/ic_wifi_tethering_black_24dp"
             fancy:fb_radius="4dp"
             android:text="RECEIVE MATERIAL"
             android:textSize="18sp"

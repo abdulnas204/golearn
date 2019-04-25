@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.makerloom.common.MyApp;
 import com.makerloom.common.activity.MyPlainToolbarActivity;
 import com.makerloom.golearn.R;
 import com.makerloom.golearn.utils.Commons;
@@ -18,6 +19,7 @@ public class WelcomeActivity extends MyPlainToolbarActivity {
     private TextView mottoTV;
 
     private FancyButton signInBtn;
+    private FancyButton noSignInBtn;
 
     private FancyButton getInfoBtn;
 
@@ -32,11 +34,21 @@ public class WelcomeActivity extends MyPlainToolbarActivity {
             @Override
             public void onClick(View v) {
                 if (Commons.hasConnection(WelcomeActivity.this)) {
+                    MyApp.dontUseWithoutSignIn();
                     startActivity(new Intent(WelcomeActivity.this, AuthActivity.class));
                 }
                 else {
                     NetworkUtils.Companion.showConnectionErrorMessage(WelcomeActivity.this, "sign in");
                 }
+            }
+        });
+
+        noSignInBtn = findViewById(R.id.no_signin_btn);
+        noSignInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyApp.useWithoutSignIn();
+                goToHome();
             }
         });
     }

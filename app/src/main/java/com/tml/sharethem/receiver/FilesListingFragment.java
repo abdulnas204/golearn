@@ -17,6 +17,7 @@ package com.tml.sharethem.receiver;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,7 +28,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,10 +35,11 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.makerloom.golearn.R;
-import com.tml.sharethem.utils.DividerItemDecoration;
+import com.makerloom.golearn.utils.FileSystemUtils;
 import com.tml.sharethem.utils.RecyclerViewArrayAdapter;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -49,6 +50,7 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +58,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import mehdi.sakout.fancybuttons.FancyButton;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 
@@ -82,6 +85,8 @@ public class FilesListingFragment extends Fragment {
     private ContactSenderAPITask mUrlsTask;
     private ContactSenderAPITask mStatusCheckTask;
 
+    private FancyButton saveAllBtn;
+
     private String mPort, mSenderName;
 
     static final int CHECK_SENDER_STATUS = 100;
@@ -102,19 +107,34 @@ public class FilesListingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_files_listing, null);
-        mFilesListing = (RecyclerView) v.findViewById(R.id.files_list);
-        mLoading = (ProgressBar) v.findViewById(R.id.loading);
-        mEmptyListText = (TextView) v.findViewById(R.id.empty_listing_text);
+        mFilesListing = v.findViewById(R.id.files_list);
+        saveAllBtn = v.findViewById(R.id.save_all_btn);
+        saveAllBtn.getTextViewObject().setTypeface(Typeface.DEFAULT_BOLD);
+        saveAllBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Downloading All Material", Toast.LENGTH_LONG)
+                        .show();
+                if (downloadInfoList != null && !downloadInfoList.isEmpty()) {
+                    for (FileDownloadInfo downloadInfo: downloadInfoList) {
+                        downloadInfo.executeDownload();
+                    }
+                }
+            }
+        });
+        mLoading = v.findViewById(R.id.loading);
+        mEmptyListText = v.findViewById(R.id.empty_listing_text);
         mEmptyListText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mEmptyListText.setVisibility(View.GONE);
+                saveAllBtn.setVisibility(View.GONE);
                 mLoading.setVisibility(View.VISIBLE);
                 fetchSenderFiles();
             }
         });
         mFilesListing.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mFilesListing.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.list_divider)));
+        // mFilesListing.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.list_divider)));
         mFilesAdapter = new SenderFilesListingAdapter(new ArrayList<String>());
         mFilesListing.setAdapter(mFilesAdapter);
         uiUpdateHandler = new UiUpdateHandler(this);
@@ -193,42 +213,51 @@ public class FilesListingFragment extends Fragment {
     private void loadListing(String contentAsString) {
         Type collectionType = new TypeToken<List<String>>() {
         }.getType();
+        Log.d(TAG, "contentAsString = " + contentAsString);
         ArrayList<String> files = new Gson().fromJson(contentAsString, collectionType);
         mLoading.setVisibility(View.GONE);
         if (null == files || files.size() == 0) {
             mEmptyListText.setText("No Downloads found.\n Tap to Retry");
             mEmptyListText.setVisibility(View.VISIBLE);
+            saveAllBtn.setVisibility(View.GONE);
         } else {
             mEmptyListText.setVisibility(View.GONE);
+            saveAllBtn.setVisibility(View.VISIBLE);
             mFilesAdapter.updateData(files);
         }
     }
 
     private void onDataFetchError() {
         mLoading.setVisibility(View.GONE);
+        saveAllBtn.setVisibility(View.GONE);
         mEmptyListText.setVisibility(View.VISIBLE);
         mEmptyListText.setText("Error occurred while fetching data.\n Tap to Retry");
     }
 
-    private long postDownloadRequestToDM(Uri uri, String fileName) {
-
+    private long postDownloadRequestToDM(Uri uri, String fileName, String destDir) {
         // Create request for android download manager
         DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(uri);
 
-        //Setting title of request
         request.setTitle(fileName);
-
-        //Setting description of request
-        request.setDescription("ShareThem");
+        request.setDescription(getString(R.string.app_name));
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE |
+                DownloadManager.Request.NETWORK_WIFI);
+        request.setVisibleInDownloadsUi(true);
+        request.setAllowedOverMetered(true);
+        request.setAllowedOverRoaming(false);
 
-        //Set the local destination for the downloaded file to a path
-        //within the application's external files directory
-        request.setDestinationInExternalFilesDir(getActivity(),
-                Environment.DIRECTORY_DOWNLOADS, fileName);
+        // Set the local destination for the downloaded file to a path
+        // within the application's external files directory
+        File destDirFile = new File(Environment.getExternalStorageDirectory(), destDir);
+        destDirFile.mkdirs();
 
-        //Enqueue download and save into referenceId
+        Log.d(TAG, "Dest Dir Full: " + destDirFile.getAbsolutePath() + ", Uri: " + uri +
+                ", Filename: " + fileName);
+        request.setDestinationUri(Uri.fromFile(new File(destDirFile, fileName)));
+
+        // Enqueue download and save into referenceId
         return downloadManager.enqueue(request);
     }
 
@@ -252,28 +281,56 @@ public class FilesListingFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(SenderFilesListItemHolder holder, int position) {
+
             final String senderFile = mObjects.get(position);
             holder.itemView.setTag(senderFile);
-            final String fileName = senderFile.substring(senderFile.lastIndexOf('/') + 1, senderFile.length());
+            Log.d(TAG, senderFile);
+
+            final Uri uri = Uri.parse(String.format(PATH_FILE_DOWNLOAD, mSenderIp, mPort, mObjects.indexOf(senderFile)));
+            Log.d(TAG, "senderFile = " + senderFile);
+            final String destDir = FileSystemUtils.Companion.parseDestDir(senderFile);
+            final String fileName = senderFile.substring(senderFile.lastIndexOf('/') + 1);
+            downloadInfoList.add(new FileDownloadInfo(uri, fileName, destDir));
+
             holder.title.setText(fileName);
             holder.download.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    postDownloadRequestToDM(Uri.parse(String.format(PATH_FILE_DOWNLOAD, mSenderIp, mPort, mObjects.indexOf(senderFile))), fileName);
+                    postDownloadRequestToDM(uri, fileName, destDir);
                     Toast.makeText(getActivity(), "Downloading " + fileName + "...", Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
 
+    List<FileDownloadInfo> downloadInfoList = new ArrayList<>();
+
+    class FileDownloadInfo {
+        Uri uri;
+
+        String fileName;
+
+        String destDir;
+
+        FileDownloadInfo (Uri uri, String fileName, String destDir) {
+            this.uri = uri;
+            this.fileName = fileName;
+            this.destDir = destDir;
+        }
+
+        void executeDownload () {
+            postDownloadRequestToDM(uri, fileName, destDir);
+        }
+    }
+
     static class SenderFilesListItemHolder extends RecyclerView.ViewHolder {
         TextView title;
-        ImageButton download;
+        View download;
 
         SenderFilesListItemHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.sender_list_item_name);
-            download = (ImageButton) itemView.findViewById(R.id.sender_list_start_download);
+            title = itemView.findViewById(R.id.sender_list_item_name);
+            download = itemView.findViewById(R.id.sender_list_start_download);
         }
     }
 
@@ -307,6 +364,7 @@ public class FilesListingFragment extends Fragment {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
+            Log.d(TAG, "result = " + result);
             switch (mode) {
                 case SENDER_DATA_FETCH:
                     if (error) {
@@ -377,7 +435,7 @@ public class FilesListingFragment extends Fragment {
             char[] buffer = new char[1024];
             try {
                 Reader reader = new BufferedReader(
-                        new InputStreamReader(stream, "UTF-8"));
+                        new InputStreamReader(stream, StandardCharsets.UTF_8));
                 int n;
                 while ((n = reader.read(buffer)) != -1) {
                     writer.write(buffer, 0, n);

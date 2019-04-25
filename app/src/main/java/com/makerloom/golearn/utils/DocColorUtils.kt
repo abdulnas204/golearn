@@ -12,16 +12,16 @@ class DocColorUtils {
                 return ContextCompat.getColor(context, R.color.gray)
             }
             else if (matches(ext, "pdf")) {
-                return ContextCompat.getColor(context, R.color.md_red_600)
+                return ContextCompat.getColor(context, R.color.md_red_500)
             }
-            else if (matches(ext, "doc", "docx", "odf")) {
-                return ContextCompat.getColor(context, R.color.md_blue_500)
+            else if (matches(ext, "doc", "docx", "odt", "rtf")) {
+                return ContextCompat.getColor(context, R.color.md_blue_400)
             }
-            else if (matches(ext, "ppt", "pptx", "opf")) {
-                return ContextCompat.getColor(context, R.color.md_orange_400)
+            else if (matches(ext, "ppt", "pptx", "ods")) {
+                return ContextCompat.getColor(context, R.color.md_orange_300)
             }
-            else if (matches(ext, "doc", "docx", "odf")) {
-                return ContextCompat.getColor(context, R.color.md_blue_500)
+            else if (matches(ext, "xls", "xlsx", "ots")) {
+                return ContextCompat.getColor(context, R.color.md_green_400)
             }
             else {
                 return ContextCompat.getColor(context, R.color.gray)

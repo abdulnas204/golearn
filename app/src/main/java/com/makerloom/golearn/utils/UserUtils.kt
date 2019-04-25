@@ -77,7 +77,7 @@ class UserUtils {
                         if (it != null && it.exists()) {
                             val userInfo = it.toObject(UserInfo::class.java)
                             if (null == userInfo) {
-                                // getUserInfoCallback.onFailure(Exception("The UserInfo Object is null"))
+                                // getUserInfoCallback.onFailure(Exception("The UserPINInfo Object is null"))
                                 Log.d(TAG, "The UserInfo Object is null")
                                 getUserInfoCallback.onSuccess(null)
                                 return@addOnSuccessListener

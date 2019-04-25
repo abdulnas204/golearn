@@ -1,16 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
-    tools:context=".screens.HomeActivity">
+    tools:context=".screens.HomeActivity"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <RelativeLayout
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/receive_btn_container"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp">
+
+        <TextView
+            android:id="@+id/empty_message"
+            android:visibility="gone"
+            android:padding="32dp"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:text="You don't have any course material for this course."
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -20,9 +37,38 @@
             android:paddingRight="2dp"
             android:paddingTop="2dp"
             xmlns:tools="http://schemas.android.com/tools"
-            tools:listitem="@layout/g_doc_card"
+            tools:listitem="@layout/g_course_card"
             android:clipToPadding="false" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/receive_btn_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/receive_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_margin="8dp"
+            fancy:fb_borderColor="@color/colorPrimary"
+            fancy:fb_borderWidth="2dp"
+            fancy:fb_defaultColor="@color/colorPrimary"
+            fancy:fb_focusColor="@color/white"
+            fancy:fb_iconPaddingRight="8dp"
+            fancy:fb_iconResource="@drawable/ic_wifi_tethering_black_24dp"
+            fancy:fb_radius="4dp"
+            android:text="RECEIVE MATERIAL"
+            android:textSize="18sp"
+            fancy:fb_textColor="@color/white" />
 
     </LinearLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,8 +26,7 @@ public class AuthActivity extends MyBackToolbarActivity {
     private static final int RC_SIGN_IN = 123;
 
     List<AuthUI.IdpConfig> providers = Arrays.asList(
-            new AuthUI.IdpConfig.GoogleBuilder().build(),
-//            new AuthUI.IdpConfig.FacebookBuilder().build(),
+//            new AuthUI.IdpConfig.GoogleBuilder().build(),
 //            new AuthUI.IdpConfig.PhoneBuilder().build(),
             new AuthUI.IdpConfig.EmailBuilder().build()
     );
@@ -51,6 +50,7 @@ public class AuthActivity extends MyBackToolbarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "onActivityResult");
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RC_SIGN_IN) {
@@ -92,7 +92,7 @@ public class AuthActivity extends MyBackToolbarActivity {
     private void signIn () {
         startActivityForResult(AuthUI.getInstance()
                 .createSignInIntentBuilder()
-                .setIsSmartLockEnabled(true)
+                .setIsSmartLockEnabled(false)
                 .setAvailableProviders(providers)
                 .setLogo(R.drawable.ic_launcher_2x)
                 .build(), RC_SIGN_IN);

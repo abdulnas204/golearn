@@ -62,11 +62,11 @@ class TimeTableFragment: Fragment(),
                 weekViewType = TYPE_DAY_VIEW
 
                 weekView.apply {
-                    setNumberOfVisibleDays(1)
+                    numberOfVisibleDays = 1
                     // Lets change some dimensions to best fit the view.
-                    weekView.setColumnGap(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt())
-                    weekView.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics).toInt())
-                    weekView.setEventTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics).toInt())
+                    weekView.columnGap = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+                    weekView.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics).toInt()
+                    weekView.eventTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics).toInt()
                 }
 
                 return
@@ -76,11 +76,11 @@ class TimeTableFragment: Fragment(),
                 weekViewType = TYPE_THREE_DAY_VIEW
 
                 weekView.apply {
-                    setNumberOfVisibleDays(3)
+                    numberOfVisibleDays = 3
                     // Lets change some dimensions to best fit the view.
-                    setColumnGap(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt())
-                    setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics).toInt())
-                    setEventTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics).toInt())
+                    columnGap = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+                    textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics).toInt()
+                    eventTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics).toInt()
                 }
 
                 return
@@ -90,11 +90,11 @@ class TimeTableFragment: Fragment(),
                 weekViewType = TYPE_WEEK_VIEW
 
                 weekView.apply {
-                    setNumberOfVisibleDays(7)
+                    numberOfVisibleDays = 7
                     // Lets change some dimensions to best fit the view.
-                    setColumnGap(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, resources.displayMetrics).toInt())
-                    setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10f, resources.displayMetrics).toInt())
-                    setEventTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10f, resources.displayMetrics).toInt())
+                    columnGap = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, resources.displayMetrics).toInt()
+                    textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10f, resources.displayMetrics).toInt()
+                    eventTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10f, resources.displayMetrics).toInt()
                 }
 
                 return
@@ -116,7 +116,7 @@ class TimeTableFragment: Fragment(),
         endTime.add(Calendar.HOUR, 1)
         endTime.set(Calendar.MONTH, newMonth - 1)
         var event = WeekViewEvent(1, getEventTitle(startTime), startTime, endTime)
-        event.color = resources.getColor(ColorGenerator.MATERIAL.getColor(event))
+        event.color = (ColorGenerator.MATERIAL.getColor(event.toString()))
         events.add(event)
 
         startTime = Calendar.getInstance()
@@ -129,7 +129,7 @@ class TimeTableFragment: Fragment(),
         endTime.set(Calendar.MINUTE, 30)
         endTime.set(Calendar.MONTH, newMonth - 1)
         event = WeekViewEvent(10, getEventTitle(startTime), startTime, endTime)
-        event.color = resources.getColor(ColorGenerator.MATERIAL.getColor(event))
+        event.color = (ColorGenerator.MATERIAL.getColor(event))
         events.add(event)
 
         startTime = Calendar.getInstance()
@@ -141,7 +141,7 @@ class TimeTableFragment: Fragment(),
         endTime.set(Calendar.HOUR_OF_DAY, 5)
         endTime.set(Calendar.MINUTE, 0)
         event = WeekViewEvent(10, getEventTitle(startTime), startTime, endTime)
-        event.color = resources.getColor(ColorGenerator.MATERIAL.getColor(event))
+        event.color = (ColorGenerator.MATERIAL.getColor(event))
         events.add(event)
 
         startTime = Calendar.getInstance()
@@ -153,7 +153,7 @@ class TimeTableFragment: Fragment(),
         endTime.add(Calendar.HOUR_OF_DAY, 2)
         endTime.set(Calendar.MONTH, newMonth - 1)
         event = WeekViewEvent(2, getEventTitle(startTime), startTime, endTime)
-        event.color = resources.getColor(ColorGenerator.MATERIAL.getColor(event))
+        event.color = (ColorGenerator.MATERIAL.getColor(event))
         events.add(event)
 
         startTime = Calendar.getInstance()
@@ -166,7 +166,7 @@ class TimeTableFragment: Fragment(),
         endTime.add(Calendar.HOUR_OF_DAY, 3)
         endTime.set(Calendar.MONTH, newMonth - 1)
         event = WeekViewEvent(3, getEventTitle(startTime), startTime, endTime)
-        event.color = resources.getColor(ColorGenerator.MATERIAL.getColor(event))
+        event.color = (ColorGenerator.MATERIAL.getColor(event))
         events.add(event)
 
         startTime = Calendar.getInstance()
@@ -178,7 +178,7 @@ class TimeTableFragment: Fragment(),
         endTime = startTime.clone() as Calendar
         endTime.add(Calendar.HOUR_OF_DAY, 3)
         event = WeekViewEvent(4, getEventTitle(startTime), startTime, endTime)
-        event.color = resources.getColor(ColorGenerator.MATERIAL.getColor(event))
+        event.color = (ColorGenerator.MATERIAL.getColor(event))
         events.add(event)
 
         startTime = Calendar.getInstance()
@@ -190,7 +190,7 @@ class TimeTableFragment: Fragment(),
         endTime = startTime.clone() as Calendar
         endTime.add(Calendar.HOUR_OF_DAY, 3)
         event = WeekViewEvent(5, getEventTitle(startTime), startTime, endTime)
-        event.color = resources.getColor(ColorGenerator.MATERIAL.getColor(event))
+        event.color = (ColorGenerator.MATERIAL.getColor(event))
         events.add(event)
 
         startTime = Calendar.getInstance()
@@ -202,7 +202,7 @@ class TimeTableFragment: Fragment(),
         endTime = startTime.clone() as Calendar
         endTime.add(Calendar.HOUR_OF_DAY, 3)
         event = WeekViewEvent(5, getEventTitle(startTime), startTime, endTime)
-        event.color = resources.getColor(ColorGenerator.MATERIAL.getColor(event))
+        event.color = (ColorGenerator.MATERIAL.getColor(event))
         events.add(event)
 
         //AllDay event
@@ -214,7 +214,7 @@ class TimeTableFragment: Fragment(),
         endTime = startTime.clone() as Calendar
         endTime.add(Calendar.HOUR_OF_DAY, 23)
         event = WeekViewEvent(7, getEventTitle(startTime), null, startTime, endTime /*, true*/)
-        event.color = resources.getColor(ColorGenerator.MATERIAL.getColor(event))
+        event.color = (ColorGenerator.MATERIAL.getColor(event))
         events.add(event)
         events.add(event)
 
@@ -228,7 +228,7 @@ class TimeTableFragment: Fragment(),
         endTime.set(Calendar.DAY_OF_MONTH, 10)
         endTime.set(Calendar.HOUR_OF_DAY, 23)
         event = WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime /*, true*/)
-        event.color = resources.getColor(ColorGenerator.MATERIAL.getColor(event))
+        event.color = (ColorGenerator.MATERIAL.getColor(event))
         events.add(event)
 
         // All day event until 00:00 next day
@@ -243,7 +243,7 @@ class TimeTableFragment: Fragment(),
         endTime = startTime.clone() as Calendar
         endTime.set(Calendar.DAY_OF_MONTH, 11)
         event = WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime /*, true*/)
-        event.color = resources.getColor(ColorGenerator.MATERIAL.getColor(event))
+        event.color = (ColorGenerator.MATERIAL.getColor(event))
         events.add(event)
 
         return events
@@ -310,11 +310,11 @@ class TimeTableFragment: Fragment(),
             setOnEventClickListener(this@TimeTableFragment)
             // The week view has infinite scrolling horizontally. We have to provide the events of a
             // month every time the month changes on the week view.
-            setMonthChangeListener(this@TimeTableFragment)
+            monthChangeListener = this@TimeTableFragment
             // Set long press listener for events.
-            setEventLongPressListener(this@TimeTableFragment)
+            eventLongPressListener = this@TimeTableFragment
             // Set long press listener for empty view
-            setEmptyViewLongPressListener(this@TimeTableFragment)
+            emptyViewLongPressListener = this@TimeTableFragment
         }
 
         setupDateTimeInterpreter(false, weekView)

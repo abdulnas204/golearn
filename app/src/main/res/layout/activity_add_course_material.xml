@@ -40,8 +40,8 @@
                     android:layout_marginBottom="@dimen/field_bottom_margin" >
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/fname_et"
-                        android:hint="First Name"
+                        android:id="@+id/title_et"
+                        android:hint="Title eg. Digital Networking Concepts"
                         android:inputType="textNoSuggestions"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -49,19 +49,29 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-                <com.google.android.material.textfield.TextInputLayout
+                <mehdi.sakout.fancybuttons.FancyButton
+                    android:id="@+id/add_material_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/field_bottom_margin">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/lname_et"
-                        android:hint="Last Name"
-                        android:inputType="textNoSuggestions"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:paddingTop="@dimen/custom_big_btn_padding_vertical"
+                    android:paddingBottom="@dimen/custom_big_btn_padding_vertical"
+                    android:paddingLeft="@dimen/custom_big_btn_padding_horizontal"
+                    android:paddingRight="@dimen/custom_big_btn_padding_horizontal"
+                    fancy:fb_borderColor="@color/colorPrimary"
+                    fancy:fb_borderWidth="2dp"
+                    fancy:fb_defaultColor="@color/white"
+                    fancy:fb_focusColor="@color/colorAccent"
+                    fancy:fb_radius="6dp"
+                    fancy:fb_iconPaddingRight="8dp"
+                    fancy:fb_iconPosition="left"
+                    fancy:fb_iconResource="@drawable/ic_library_add_black_24dp"
+                    android:text="Select Material..."
+                    android:textAllCaps="true"
+                    android:textSize="@dimen/custom_big_btn_text_size"
+                    fancy:fb_textColor="@color/colorPrimary"
+                    fancy:fb_disabledColor="@color/gray_light"
+                    fancy:fb_disabledBorderColor="@color/gray_light"
+                    fancy:fb_disabledTextColor="@color/gray_dark" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -92,11 +102,11 @@
                 fancy:fb_defaultColor="@color/colorPrimary"
                 fancy:fb_focusColor="@color/white"
                 fancy:fb_radius="@dimen/custom_big_btn_radius"
-                android:text="Save"
+                android:text="Save Material"
                 android:textAllCaps="true"
                 android:textSize="@dimen/custom_big_btn_text_size"
                 fancy:fb_textColor="@color/white"
-                android:enabled="false"
+                android:enabled="true"
                 fancy:fb_disabledColor="@color/gray_light"
                 fancy:fb_disabledBorderColor="@color/gray_light"
                 fancy:fb_disabledTextColor="@color/gray_dark" />

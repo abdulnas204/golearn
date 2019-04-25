@@ -134,7 +134,7 @@
                         android:paddingTop="6dp"
                         android:paddingBottom="6dp"
                         android:paddingLeft="12dp"
-                        android:paddingRight="12dp"
+                        android:paddingRight="-2dp"
                         android:layout_marginLeft="0dp"
                         android:layout_marginRight="0dp"
                         fancy:fb_borderColor="@color/colorPrimary"
@@ -142,6 +142,9 @@
                         fancy:fb_defaultColor="@color/white"
                         fancy:fb_focusColor="@color/colorAccent"
                         fancy:fb_radius="4dp"
+                        fancy:fb_iconPosition="right"
+                        fancy:fb_iconPaddingLeft="4dp"
+                        fancy:fb_iconResource="@drawable/ic_publish_black_24dp"
                         android:text="SEND MATERIAL"
                         android:textSize="16sp"
                         fancy:fb_textColor="@color/colorPrimary" />

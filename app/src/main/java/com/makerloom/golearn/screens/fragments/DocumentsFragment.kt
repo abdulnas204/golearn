@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@ import com.makerloom.golearn.adapters.GDocAdapter
 import com.makerloom.golearn.models.Course
 import com.makerloom.golearn.models.Document
 import com.makerloom.golearn.screens.HomeActivity
+import mehdi.sakout.fancybuttons.FancyButton
 import java.io.File
 
 // TODO: Rename parameter arguments, choose names that match
@@ -39,8 +41,9 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class DocumentsFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
+    var param1: String? = null
+    var param2: String? = null
+
     private var listener: OnFragmentInteractionListener? = null
 
     private var docRV: RecyclerView? = null
@@ -53,27 +56,6 @@ class DocumentsFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
-        val course = Course(param1, param2)
-
-
-        Dexter.withActivity(this.activity)
-                .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .withListener(object: MultiplePermissionsListener {
-                    override fun onPermissionRationaleShouldBeShown(permissions: MutableList<PermissionRequest>?, token: PermissionToken?) {
-                        token?.continuePermissionRequest()
-                    }
-
-                    override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-                        if (report != null && report.areAllPermissionsGranted()) {
-                            hasStoragePermission = true
-                            docs = getDocs(course)
-                        }
-                    }
-                }).check()
-
-
     }
 
     override fun onResume() {
@@ -84,7 +66,7 @@ class DocumentsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_courses, container, false)
+        return inflater.inflate(R.layout.fragment_documents, container, false)
     }
 
     fun getDocs (course: Course): List<Document> {
@@ -108,36 +90,58 @@ class DocumentsFragment : Fragment() {
         return docs
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-//        FragmentStack.register(this, R.id.fragment_root,
-//                DocumentsFragment.newInstance())
-    }
-
-    override fun onDestroy() {
-//        FragmentStack.unregister(this)
-
-        super.onDestroy()
-    }
-
     private var hasStoragePermission = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val course = Course(param1, param2)
+        Dexter.withActivity(this.activity)
+                .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(object: MultiplePermissionsListener {
+                    override fun onPermissionRationaleShouldBeShown(permissions: MutableList<PermissionRequest>?, token: PermissionToken?) {
+                        token?.continuePermissionRequest()
+                    }
+
+                    override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                        if (report != null && report.areAllPermissionsGranted()) {
+                            hasStoragePermission = true
+                            docs = getDocs(course)
+                            initViews(view)
+                        }
+                    }
+                }).check()
+    }
+
+    fun initViews (view: View) {
         if (hasStoragePermission) {
             val manager = LinearLayoutManager(this.activity)
             val adapter = GDocAdapter(this.activity, docs)
 
             docRV = view.findViewById(R.id.recycler_view)
+            docRV?.visibility = View.VISIBLE
+
             docRV?.apply {
                 this.adapter = adapter
                 layoutManager = manager
             }
+
+            val emptyMessage = view.findViewById<TextView>(R.id.empty_message)
+            if (null == docs || docs!!.isEmpty()) {
+                emptyMessage.visibility = View.VISIBLE
+                docRV?.visibility = View.GONE
+            }
         }
 
-
+        val receiveBtn = view.findViewById<FancyButton>(R.id.receive_btn)
+        receiveBtn?.apply {
+            visibility = View.VISIBLE
+            // setText("RECEIVE MATERIAL")
+            setOnClickListener {
+                (this@DocumentsFragment.activity as HomeActivity).receiveFiles(it)
+            }
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

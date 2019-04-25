@@ -1,6 +1,7 @@
 package com.makerloom.golearn.utils
 
 import android.content.Context
+import android.util.Log
 import java.io.File
 
 class FileSystemUtils {
@@ -56,6 +57,13 @@ class FileSystemUtils {
             updateables.add(getQuestionsFilePath("GST 223"))
 
             return updateables
+        }
+
+        // /storage/emulated/0/GoLearn/Courses/CSC 401 - Organization of Programming Languages/Documents/Lecture_2_slides.pdf
+        fun parseDestDir (fullPath: String): String {
+            val hFile = File("GoLearn/${fullPath.split("GoLearn/")[1]}")
+            Log.d(TAG, "Dest Dir: ${hFile.parent}")
+            return hFile.parent
         }
     }
 }

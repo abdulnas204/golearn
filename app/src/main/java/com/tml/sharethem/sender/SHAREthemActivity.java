@@ -34,20 +34,25 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
 import android.text.Html;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.makerloom.golearn.R;
-import com.tml.sharethem.utils.DividerItemDecoration;
+import com.makerloom.golearn.models.WiFiDetails;
+import com.makerloom.golearn.utils.LocationUtils;
+import com.makerloom.golearn.utils.QRUtils;
 import com.tml.sharethem.utils.HotspotControl;
 import com.tml.sharethem.utils.RecyclerViewArrayAdapter;
 import com.tml.sharethem.utils.Utils;
@@ -55,6 +60,7 @@ import com.tml.sharethem.utils.WifiUtils;
 
 import org.json.JSONArray;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,6 +104,9 @@ public class SHAREthemActivity extends AppCompatActivity {
     SwitchCompat m_apControlSwitch;
     TextView m_showShareList;
     Toolbar m_toolbar;
+    ImageView qrCodeIV;
+
+    boolean isCheckingLoc = false;
 
     private ReceiversListingAdapter m_receiversListAdapter;
     private CompoundButton.OnCheckedChangeListener m_sender_ap_switch_listener;
@@ -119,10 +128,26 @@ public class SHAREthemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sender);
 
+        isCheckingLoc = LocationUtils.Companion.checkLocationEnabled(this, isCheckingLoc, new LocationUtils.CheckLocationEnabledCallback() {
+            @Override
+            public void onEnabled() { }
+
+            @Override
+            public void onDisabled() { }
+
+            @Override
+            public void isAlreadyEnabled() {
+                initUI();
+            }
+        });
+    }
+
+    protected void initUI () {
         //init UI
-        m_sender_wifi_info = (TextView) findViewById(R.id.p2p_sender_wifi_hint);
-        m_noReceiversText = (TextView) findViewById(R.id.p2p_no_receivers_text);
-        m_showShareList = (TextView) findViewById(R.id.p2p_sender_items_label);
+        qrCodeIV = findViewById(R.id.qr_code_iv);
+        m_sender_wifi_info = findViewById(R.id.p2p_sender_wifi_hint);
+        m_noReceiversText = findViewById(R.id.p2p_no_receivers_text);
+        m_showShareList = findViewById(R.id.p2p_sender_items_label);
         m_showShareList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,11 +155,11 @@ public class SHAREthemActivity extends AppCompatActivity {
             }
         });
 
-        m_receivers_list_layout = (RelativeLayout) findViewById(R.id.p2p_receivers_list_layout);
-        m_receiversList = (RecyclerView) findViewById(R.id.p2p_receivers_list);
-        m_apControlSwitch = (SwitchCompat) findViewById(R.id.p2p_sender_ap_switch);
+        m_receivers_list_layout = findViewById(R.id.p2p_receivers_list_layout);
+        m_receiversList = findViewById(R.id.p2p_receivers_list);
+        m_apControlSwitch = findViewById(R.id.p2p_sender_ap_switch);
 
-        m_toolbar = (Toolbar) findViewById(R.id.toolbar);
+        m_toolbar = findViewById(R.id.toolbar);
         m_toolbar.setTitle(getString(R.string.send_title));
         setSupportActionBar(m_toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -142,7 +167,7 @@ public class SHAREthemActivity extends AppCompatActivity {
 
         hotspotControl = HotspotControl.getInstance(getApplicationContext());
         m_receiversList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        m_receiversList.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.list_divider)));
+        // m_receiversList.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.list_divider)));
 
         //if file paths are found, save'em into preferences. OR find them in prefs
         if (null != getIntent() && getIntent().hasExtra(SHAREthemService.EXTRA_FILE_PATHS))
@@ -206,7 +231,9 @@ public class SHAREthemActivity extends AppCompatActivity {
                 int intentType = intent.getIntExtra(SHAREthemService.ShareIntents.TYPE, 0);
                 if (intentType == SHAREthemService.ShareIntents.Types.FILE_TRANSFER_STATUS) {
                     String fileName = intent.getStringExtra(SHAREthemService.ShareIntents.SHARE_SERVER_UPDATE_FILE_NAME);
-                    updateReceiverListItem(intent.getStringExtra(SHAREthemService.ShareIntents.SHARE_CLIENT_IP), intent.getIntExtra(SHAREthemService.ShareIntents.SHARE_TRANSFER_PROGRESS, -1), intent.getStringExtra(SHAREthemService.ShareIntents.SHARE_SERVER_UPDATE_TEXT), fileName);
+                    updateReceiverListItem(intent.getStringExtra(SHAREthemService.ShareIntents.SHARE_CLIENT_IP),
+                            intent.getIntExtra(SHAREthemService.ShareIntents.SHARE_TRANSFER_PROGRESS, -1),
+                            intent.getStringExtra(SHAREthemService.ShareIntents.SHARE_SERVER_UPDATE_TEXT), fileName);
                 } else if (intentType == SHAREthemService.ShareIntents.Types.AP_DISABLED_ACKNOWLEDGEMENT) {
                     shouldAutoConnect = false;
                     resetSenderUi(false);
@@ -219,22 +246,42 @@ public class SHAREthemActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //If service is already running, change UI and display info for receiver
-        if (Utils.isShareServiceRunning(getApplicationContext())) {
-            if (!m_apControlSwitch.isChecked()) {
-                Log.e(TAG, "p2p service running, changing switch status and start handler for ui changes");
-                changeApControlCheckedStatus(true);
+
+        try {
+            getSupportActionBar().setTitle(R.string.send_title);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        catch (Exception ex) {}
+
+        isCheckingLoc = LocationUtils.Companion.checkLocationEnabled(this, isCheckingLoc, new LocationUtils.CheckLocationEnabledCallback() {
+            @Override
+            public void onEnabled() { }
+
+            @Override
+            public void onDisabled() { }
+
+            @Override
+            public void isAlreadyEnabled() {
+                m_apControlSwitch = findViewById(R.id.p2p_sender_ap_switch);
+                //If service is already running, change UI and display info for receiver
+                if (Utils.isShareServiceRunning(getApplicationContext())) {
+                    if (!m_apControlSwitch.isChecked()) {
+                        Log.e(TAG, "p2p service running, changing switch status and start handler for ui changes");
+                        changeApControlCheckedStatus(true);
+                    }
+                    refreshApData();
+                    m_receivers_list_layout.setVisibility(View.VISIBLE);
+                }
+                else if (m_apControlSwitch.isChecked()) {
+                    changeApControlCheckedStatus(false);
+                    resetSenderUi(false);
+                }
+                //switch on sender mode if not already
+                else if (shouldAutoConnect) {
+                    m_apControlSwitch.setChecked(true);
+                }
             }
-            refreshApData();
-            m_receivers_list_layout.setVisibility(View.VISIBLE);
-        } else if (m_apControlSwitch.isChecked()) {
-            changeApControlCheckedStatus(false);
-            resetSenderUi(false);
-        }
-        //switch on sender mode if not already
-        else if (shouldAutoConnect) {
-            m_apControlSwitch.setChecked(true);
-        }
+        });
     }
 
     @Override
@@ -369,7 +416,12 @@ public class SHAREthemActivity extends AppCompatActivity {
     void showSharedFilesDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Shared Files");
-        builder.setItems(m_sharedFilePaths, null);
+        String [] sharedFilePaths = new String[m_sharedFilePaths.length];
+        for (int i = 0, len = m_sharedFilePaths.length; i < len; ++i) {
+            sharedFilePaths[i] = new File(m_sharedFilePaths[i]).getName();
+        }
+        builder.setItems(sharedFilePaths, null);
+//        builder.setItems(m_sharedFilePaths, null);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -383,6 +435,7 @@ public class SHAREthemActivity extends AppCompatActivity {
     //region: Hotspot Control
     private void enableAp() {
         m_sender_wifi_info.setText(getString(R.string.p2p_sender_hint_connecting));
+        qrCodeIV.setVisibility(View.GONE);
         startP2pSenderWatchService();
         refreshApData();
         m_receivers_list_layout.setVisibility(View.VISIBLE);
@@ -435,6 +488,7 @@ public class SHAREthemActivity extends AppCompatActivity {
     private void updateApStatus() {
         if (!HotspotControl.isSupported()) {
             m_sender_wifi_info.setText("Warning: Hotspot mode not supported!\n");
+            qrCodeIV.setVisibility(View.GONE);
         }
         if (hotspotControl.isEnabled()) {
             if (!isApEnabled) {
@@ -448,9 +502,27 @@ public class SHAREthemActivity extends AppCompatActivity {
             else
                 ip = ip.replace("/", "");
             m_toolbar.setSubtitle(getString(R.string.p2p_sender_subtitle));
-            m_sender_wifi_info.setText(getString(R.string.p2p_sender_hint_wifi_connected, config.SSID, config.preSharedKey, "http://" + ip + ":" + hotspotControl.getShareServerListeningPort()));
+            m_sender_wifi_info.setText(
+//                    Html.fromHtml(getString(R.string.p2p_sender_hint_wifi_connected,
+//                            String.format("<b>%s</b>", config.SSID), String.format("<b>%s</b>", config.preSharedKey),
+//                            "http://" + ip + ":" + hotspotControl.getShareServerListeningPort())
+//                            .replace("\n", "<br />")
+//                            .replace("METHOD 1", "<b>METHOD 1</b>")
+//                            .replace("METHOD 2", "<b>METHOD 2</b>")));
+                    Html.fromHtml(getString(R.string.p2p_sender_hint_wifi_connected_barcode,
+                            String.format("<b>%s</b>", config.SSID), String.format("<b>%s</b>", config.preSharedKey))
+                            .replace("\n", "<br />")
+                            .replace("INSTRUCTIONS", "<b>INSTRUCTIONS</b>")
+                            .replace("WiFi Network Details", "<b>WiFi Network Details</b>")));
+            qrCodeIV.setVisibility(View.VISIBLE);
+            qrCodeIV.setImageBitmap(QRUtils.Companion.getQRCodeBitmap(new WiFiDetails(config.SSID, config.preSharedKey)));
+
             if (m_showShareList.getVisibility() == View.GONE) {
-                m_showShareList.append(String.valueOf(m_sharedFilePaths.length));
+                SpannableString s = new SpannableString(getString(R.string.p2p_sender_shared_list_label));
+                s.setSpan(new UnderlineSpan(), 0, s.length(), 0);
+                // m_showShareList.setText(Html.fromHtml(getString(R.string.p2p_sender_shared_list_label)));
+                m_showShareList.setText(s);
+                m_showShareList.append(": " + String.valueOf(m_sharedFilePaths.length));
                 m_showShareList.setVisibility(View.VISIBLE);
             }
         }
@@ -510,6 +582,7 @@ public class SHAREthemActivity extends AppCompatActivity {
     private void resetSenderUi(boolean disableAP) {
         m_uiUpdateHandler.removeCallbacksAndMessages(null);
         m_sender_wifi_info.setText(getString(R.string.p2p_sender_hint_text));
+        qrCodeIV.setVisibility(View.GONE);
         m_receivers_list_layout.setVisibility(View.GONE);
         m_showShareList.setVisibility(View.GONE);
         m_toolbar.setSubtitle("");
@@ -601,8 +674,8 @@ public class SHAREthemActivity extends AppCompatActivity {
 
         ReceiversListItemHolder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.p2p_receiver_title);
-            connection_status = (TextView) itemView.findViewById(R.id.p2p_receiver_connection_status);
+            title = itemView.findViewById(R.id.p2p_receiver_title);
+            connection_status = itemView.findViewById(R.id.p2p_receiver_connection_status);
         }
 
         void setConnectedUi(HotspotControl.WifiScanResult wifiScanResult) {
@@ -658,7 +731,7 @@ public class SHAREthemActivity extends AppCompatActivity {
                 for (int i = 0; i < sharedFiles.length; i++) {
                     TextView statusView = (TextView) LayoutInflater.from(parent.getContext()).
                             inflate(R.layout.include_sender_list_item, parent, false);
-                    statusView.setTag(sharedFiles[i].substring(sharedFiles[i].lastIndexOf('/') + 1, sharedFiles[i].length()));
+                    statusView.setTag(sharedFiles[i].substring(sharedFiles[i].lastIndexOf('/') + 1));
                     statusView.setVisibility(View.GONE);
                     statusView.setTextColor(getRandomColor());
                     itemView.addView(statusView);

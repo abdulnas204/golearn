@@ -27,4 +27,14 @@ public class MyApp extends MultiDexApplication {
         // Subscribe to messages about questions updates
         // FirebaseMessaging.getInstance().subscribeToTopic(Commons.UPDATES_TOPIC_NAME);
     }
+
+    public static boolean useWithoutSignIn = false;
+
+    public static void useWithoutSignIn () {
+        useWithoutSignIn = true;
+    }
+
+    public static void dontUseWithoutSignIn () {
+        useWithoutSignIn = !true;
+    }
 }

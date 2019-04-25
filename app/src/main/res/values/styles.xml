@@ -68,14 +68,6 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
-
-
-
-
-
-
-
-
     <style name="appbarlayout_toolbar_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
@@ -101,7 +93,7 @@
 
     <style name="p2p_switch" parent="Theme.AppCompat.Light">
         <!-- active thumb & track color (30% transparency) -->
-        <item name="colorControlActivated">#46bdbf</item>
+        <item name="colorControlActivated">@color/md_indigo_900</item>
 
         <!-- inactive thumb color -->
         <item name="colorSwitchThumbNormal">#cccccc

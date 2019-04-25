@@ -179,7 +179,7 @@ class SHAREthemServer extends NanoHTTPD {
 
     private Response createLogoResponse() {
         try {
-            Bitmap bitmap = BitmapFactory.decodeResource(m_context.getResources(), R.drawable.ic_launcher);
+            Bitmap bitmap = BitmapFactory.decodeResource(m_context.getResources(), R.mipmap.ic_launcher);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
             byte[] bitmapdata = bos.toByteArray();

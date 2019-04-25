@@ -48,6 +48,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.makerloom.golearn.R;
+import com.makerloom.golearn.screens.ScanActivity;
+import com.makerloom.golearn.utils.LocationUtils;
 import com.tml.sharethem.utils.Utils;
 import com.tml.sharethem.utils.WifiUtils;
 
@@ -72,8 +74,6 @@ import static com.tml.sharethem.utils.WifiUtils.connectToOpenWifi;
 /**
  * Controls
  */
-
-
 public class ReceiverActivity extends AppCompatActivity {
 
     public static final String TAG = "ReceiverActivity";
@@ -82,6 +82,7 @@ public class ReceiverActivity extends AppCompatActivity {
     SwitchCompat m_receiver_control;
     TextView m_goto_wifi_settings;
     TextView m_sender_files_header;
+    View horizontalLine;
 
     private WifiManager wifiManager;
     private SharedPreferences preferences;
@@ -97,26 +98,46 @@ public class ReceiverActivity extends AppCompatActivity {
     private boolean m_areOtherNWsDisabled = false;
     Toolbar m_toolbar;
 
+    Boolean isCheckingLoc = false;
+
     private static String TAG_SENDER_FILES_LISTING = "sender_files_listing";
 
     private static final Long SYNCTIME = 800L;
     private static final String LASTCONNECTEDTIME = "LASTCONNECTEDTIME";
     private static final String LASTDISCONNECTEDTIME = "LASTDISCONNECTEDTIME";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receiver);
+
         if (Utils.isShareServiceRunning(getApplication())) {
-            Toast.makeText(this, "Share mode is active, stop Share service to proceed with Receiving files", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    "Share mode is active, stop Share service to proceed with Receiving files",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
-        m_p2p_connection_status = (TextView) findViewById(R.id.p2p_receiver_wifi_info);
-        m_goto_wifi_settings = (TextView) findViewById(R.id.p2p_receiver_wifi_switch);
-        m_sender_files_header = (TextView) findViewById(R.id.p2p_sender_files_header);
-        m_receiver_control = (SwitchCompat) findViewById(R.id.p2p_receiver_ap_switch);
+        isCheckingLoc = LocationUtils.Companion.checkLocationEnabled(this, isCheckingLoc, new LocationUtils.CheckLocationEnabledCallback() {
+            @Override
+            public void onEnabled() { }
+
+            @Override
+            public void onDisabled() { }
+
+            @Override
+            public void isAlreadyEnabled() {
+                initUI();
+            }
+        });
+    }
+
+    protected void initUI () {
+        m_p2p_connection_status = findViewById(R.id.p2p_receiver_wifi_info);
+        m_goto_wifi_settings = findViewById(R.id.p2p_receiver_wifi_switch);
+        m_sender_files_header = findViewById(R.id.p2p_sender_files_header);
+        m_receiver_control = findViewById(R.id.p2p_receiver_ap_switch);
+        horizontalLine = findViewById(R.id.line);
 
         m_goto_wifi_settings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +146,7 @@ public class ReceiverActivity extends AppCompatActivity {
             }
         });
 
-        m_toolbar = (Toolbar) findViewById(R.id.toolbar);
+        m_toolbar = findViewById(R.id.toolbar);
         m_toolbar.setTitle(getString(R.string.send_title));
         setSupportActionBar(m_toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -225,19 +246,37 @@ public class ReceiverActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        boolean isConnectedToShareThemAp = WifiUtils.isWifiConnectedToSTAccessPoint(getApplicationContext());
-        if (isConnectedToShareThemAp) {
-            unRegisterForScanResults();
-            if (!m_receiver_control.isChecked())
-                changeReceiverControlCheckedStatus(true);
-            String ssid = wifiManager.getConnectionInfo().getSSID();
-            Log.d(TAG, "wifi is connected/connecting to ShareThem ap, ssid: " + ssid);
-            mConnectedSSID = ssid;
-            addSenderFilesListingFragment(WifiUtils.getAccessPointIpAddress(this), ssid);
-        } else if (m_receiver_control.isChecked()) {
-            Log.d(TAG, "wifi isn't connected to ShareThem ap, initiating sender search..");
-            resetSenderSearch();
+
+        try {
+            getSupportActionBar().setTitle(R.string.receiver_title);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        catch (Exception ex) {}
+
+        isCheckingLoc = LocationUtils.Companion.checkLocationEnabled(this, isCheckingLoc, new LocationUtils.CheckLocationEnabledCallback() {
+            @Override
+            public void onEnabled() { }
+
+            @Override
+            public void onDisabled() { }
+
+            @Override
+            public void isAlreadyEnabled() {
+                boolean isConnectedToShareThemAp = WifiUtils.isWifiConnectedToSTAccessPoint(getApplicationContext());
+                if (isConnectedToShareThemAp) {
+                    unRegisterForScanResults();
+                    if (!m_receiver_control.isChecked())
+                        changeReceiverControlCheckedStatus(true);
+                    String ssid = wifiManager.getConnectionInfo().getSSID();
+                    Log.d(TAG, "wifi is connected/connecting to ShareThem ap, ssid: " + ssid);
+                    mConnectedSSID = ssid;
+                    addSenderFilesListingFragment(WifiUtils.getAccessPointIpAddress(ReceiverActivity.this), ssid);
+                } else if (m_receiver_control.isChecked()) {
+                    Log.d(TAG, "wifi isn't connected to ShareThem ap, initiating sender search..");
+                    resetSenderSearch();
+                }
+            }
+        });
     }
 
     @Override
@@ -308,6 +347,35 @@ public class ReceiverActivity extends AppCompatActivity {
         builder.setNegativeButton(nButtonText, null != nListener ? nListener
                 : new DialogInterface.OnClickListener() {
 
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                return;
+            }
+        });
+        builder.show();
+    }
+
+    public void showOptionsDialogWithListners(String message,
+                                              DialogInterface.OnClickListener pListner,
+                                              DialogInterface.OnClickListener negListener,
+                                              DialogInterface.OnClickListener neuListener,
+                                              String pButtonText, String negButtonText, String neuButtonText) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setCancelable(false);
+        builder.setMessage(Build.VERSION.SDK_INT >= 24 ?
+                Html.fromHtml(message, Html.FROM_HTML_MODE_LEGACY) :  Html.fromHtml(message));
+        builder.setPositiveButton(pButtonText, pListner);
+        builder.setNeutralButton(neuButtonText, null != neuListener ? neuListener
+                : new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                return;
+            }
+        });
+        builder.setNegativeButton(negButtonText, null != negListener ? negListener
+                : new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -447,7 +515,13 @@ public class ReceiverActivity extends AppCompatActivity {
     }
 
     private void promptToConnectManually(final String ssid) {
-        showOptionsDialogWithListners(getString(R.string.p2p_receiver_oreo_msg, ssid), new DialogInterface.OnClickListener() {
+        showOptionsDialogWithListners(getString(R.string.p2p_receiver_oreo_msg, ssid)
+                .replace(ssid, "<b>" + ssid + "</b>"), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                goToQRScanActivity();
+            }
+        }, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
@@ -464,7 +538,13 @@ public class ReceiverActivity extends AppCompatActivity {
                 m_p2p_connection_status.setText(getString(R.string.p2p_receiver_scanning_hint));
                 startSenderScan();
             }
-        }, "Settings", "Cancel");
+        },  "Scan QR Code", "Settings", "Cancel");
+    }
+
+    void goToQRScanActivity () {
+        Log.d(TAG, "goToQRActivity");
+        Intent qr = new Intent(ReceiverActivity.this, ScanActivity.class);
+        startActivity(qr);
     }
 
     private class WifiScanner extends BroadcastReceiver {
@@ -552,6 +632,7 @@ public class ReceiverActivity extends AppCompatActivity {
         if (!m_receiver_control.isChecked())
             changeReceiverControlCheckedStatus(true);
         m_sender_files_header.setVisibility(View.VISIBLE);
+        horizontalLine.setVisibility(View.VISIBLE);
         return senderInfo;
     }
 
@@ -568,6 +649,7 @@ public class ReceiverActivity extends AppCompatActivity {
         m_p2p_connection_status.setText(getString(m_receiver_control.isChecked() ? R.string.p2p_receiver_scanning_hint : R.string.p2p_receiver_hint_text));
         m_goto_wifi_settings.setVisibility(View.GONE);
         m_sender_files_header.setVisibility(View.GONE);
+        horizontalLine.setVisibility(View.GONE);
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG_SENDER_FILES_LISTING);
         if (null != fragment)
             getSupportFragmentManager()

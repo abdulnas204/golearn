@@ -45,7 +45,7 @@ public class CheckPINValidityActivity extends MyAppCompatActivity {
         if (null == user) {
             startActivity(new Intent(CheckPINValidityActivity.this, AuthActivity.class));
         }
-        // UserInfo signed in, now check if he has a valid PIN
+        // UserPINInfo signed in, now check if he has a valid PIN
         else {
             checkPIN();
         }

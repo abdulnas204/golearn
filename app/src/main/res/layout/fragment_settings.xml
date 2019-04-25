@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     tools:context=".screens.fragments.SettingsFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -17,69 +16,125 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <mehdi.sakout.fancybuttons.FancyButton
+            <Button
                 android:id="@+id/edit_user_info_btn"
+                android:drawableLeft="@drawable/ic_person_black_24dp"
+                android:text="    Edit User Information"
+                android:paddingStart="16dp"
+                android:paddingLeft="16dp"
+                android:background="@color/white"
+                android:textSize="16sp"
+                android:textColor="@color/gray_darker"
+                android:drawableTint="@color/gray_darker"
+                android:gravity="left|center_vertical"
+                android:textAllCaps="false"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:layout_marginStart="-2dp"
-                android:layout_marginEnd="-2dp"
-                fancy:fb_borderColor="@color/gray_dark"
-                fancy:fb_borderWidth="1dp"
-                fancy:fb_defaultColor="@color/white"
-                fancy:fb_focusColor="@color/colorAccent"
-                fancy:fb_radius="0dp"
-                fancy:fb_textGravity="left"
-                android:text="Edit User Information"
-                fancy:fb_iconPaddingRight="10dp"
-                fancy:fb_iconPosition="left"
-                fancy:fb_iconResource="@drawable/ic_person_black_24dp"
-                android:textSize="16.5sp"
-                android:textStyle="bold"
-                fancy:fb_textColor="@color/gray_darker" />
+                android:layout_height="wrap_content" />
 
-            <mehdi.sakout.fancybuttons.FancyButton
+            <include
+                layout="@layout/horizontal_line_light" />
+
+            <Button
                 android:id="@+id/edit_uni_info_btn"
+                android:drawableLeft="@drawable/ic_school_black_24dp"
+                android:text="    Edit University Information"
+                android:paddingStart="16dp"
+                android:paddingLeft="16dp"
+                android:background="@color/white"
+                android:textSize="16sp"
+                android:textColor="@color/gray_darker"
+                android:drawableTint="@color/gray_darker"
+                android:gravity="left|center_vertical"
+                android:textAllCaps="false"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginStart="-2dp"
-                android:layout_marginEnd="-2dp"
-                fancy:fb_borderColor="@color/gray_dark"
-                fancy:fb_borderWidth="1dp"
-                fancy:fb_defaultColor="@color/white"
-                fancy:fb_focusColor="@color/colorAccent"
-                fancy:fb_radius="0dp"
-                fancy:fb_textGravity="left"
-                android:text="Edit University Information"
-                fancy:fb_iconPaddingRight="10dp"
-                fancy:fb_iconPosition="left"
-                fancy:fb_iconResource="@drawable/ic_school_black_24dp"
-                android:textSize="16.5sp"
-                android:textStyle="bold"
-                fancy:fb_textColor="@color/gray_darker" />
+                android:layout_height="wrap_content" />
 
-            <mehdi.sakout.fancybuttons.FancyButton
+            <include
+                layout="@layout/horizontal_line_light" />
+
+            <Button
                 android:id="@+id/sign_out_btn"
+                android:drawableLeft="@drawable/ic_launch_black_24dp"
+                android:text="    Sign Out"
+                android:paddingStart="16dp"
+                android:paddingLeft="16dp"
+                android:background="@color/white"
+                android:textSize="16sp"
+                android:textColor="@color/gray_darker"
+                android:drawableTint="@color/gray_darker"
+                android:gravity="left|center_vertical"
+                android:textAllCaps="false"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:layout_marginStart="-2dp"
-                android:layout_marginEnd="-2dp"
-                fancy:fb_borderColor="@color/gray_dark"
-                fancy:fb_borderWidth="1dp"
-                fancy:fb_defaultColor="@color/white"
-                fancy:fb_focusColor="@color/colorAccent"
-                fancy:fb_radius="0dp"
-                fancy:fb_textGravity="left"
-                android:text="Sign Out"
-                fancy:fb_iconPaddingRight="10dp"
-                fancy:fb_iconPosition="left"
-                fancy:fb_iconResource="@drawable/ic_launch_black_24dp"
-                android:textSize="16.5sp"
-                android:textStyle="bold"
-                fancy:fb_textColor="@color/gray_darker" />
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/horizontal_line_light" />
+
+            <!--<mehdi.sakout.fancybuttons.FancyButton-->
+                <!--android:id="@+id/edit_user_info_btn"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="16dp"-->
+                <!--android:gravity="left"-->
+                <!--android:layout_gravity="left"-->
+                <!--android:layout_marginStart="-2dp"-->
+                <!--android:layout_marginEnd="-2dp"-->
+                <!--fancy:fb_borderColor="@color/gray_dark"-->
+                <!--fancy:fb_borderWidth="1dp"-->
+                <!--fancy:fb_defaultColor="@color/white"-->
+                <!--fancy:fb_focusColor="@color/colorAccent"-->
+                <!--fancy:fb_radius="0dp"-->
+                <!--fancy:fb_textGravity="left"-->
+                <!--android:text="Edit User Information"-->
+                <!--fancy:fb_iconPaddingRight="10dp"-->
+                <!--fancy:fb_iconPosition="left"-->
+                <!--fancy:fb_iconResource="@drawable/ic_person_black_24dp"-->
+                <!--android:textSize="16.5sp"-->
+                <!--android:textStyle="bold"-->
+                <!--fancy:fb_textColor="@color/gray_darker" />-->
+
+            <!--<mehdi.sakout.fancybuttons.FancyButton-->
+                <!--android:id="@+id/edit_uni_info_btn"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="16dp"-->
+                <!--android:layout_marginTop="0dp"-->
+                <!--android:layout_marginStart="-2dp"-->
+                <!--android:layout_marginEnd="-2dp"-->
+                <!--fancy:fb_borderColor="@color/gray_dark"-->
+                <!--fancy:fb_borderWidth="1dp"-->
+                <!--fancy:fb_defaultColor="@color/white"-->
+                <!--fancy:fb_focusColor="@color/colorAccent"-->
+                <!--fancy:fb_radius="0dp"-->
+                <!--fancy:fb_textGravity="left"-->
+                <!--android:text="Edit University Information"-->
+                <!--fancy:fb_iconPaddingRight="10dp"-->
+                <!--fancy:fb_iconPosition="left"-->
+                <!--fancy:fb_iconResource="@drawable/ic_school_black_24dp"-->
+                <!--android:textSize="16.5sp"-->
+                <!--android:textStyle="bold"-->
+                <!--fancy:fb_textColor="@color/gray_darker" />-->
+
+            <!--<mehdi.sakout.fancybuttons.FancyButton-->
+                <!--android:id="@+id/sign_out_btn"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="16dp"-->
+                <!--android:layout_marginStart="-2dp"-->
+                <!--android:layout_marginEnd="-2dp"-->
+                <!--fancy:fb_borderColor="@color/gray_dark"-->
+                <!--fancy:fb_borderWidth="1dp"-->
+                <!--fancy:fb_defaultColor="@color/white"-->
+                <!--fancy:fb_focusColor="@color/colorAccent"-->
+                <!--fancy:fb_radius="0dp"-->
+                <!--fancy:fb_textGravity="left"-->
+                <!--android:text="Sign Out"-->
+                <!--fancy:fb_iconPaddingRight="10dp"-->
+                <!--fancy:fb_iconPosition="left"-->
+                <!--fancy:fb_iconResource="@drawable/ic_launch_black_24dp"-->
+                <!--android:textSize="16.5sp"-->
+                <!--android:textStyle="bold"-->
+                <!--fancy:fb_textColor="@color/gray_darker" />-->
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

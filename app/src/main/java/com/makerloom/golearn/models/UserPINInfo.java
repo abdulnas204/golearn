@@ -3,11 +3,11 @@ package com.makerloom.golearn.models;
 import java.util.Calendar;
 import java.util.Date;
 
-public class UserInfo {
+public class UserPINInfo {
     private Date unlockedTill;
 
-    public UserInfo() {}
-    public UserInfo(Date unlockedTill) {
+    public UserPINInfo() {}
+    public UserPINInfo(Date unlockedTill) {
         setUnlockedTill(unlockedTill);
     }
 

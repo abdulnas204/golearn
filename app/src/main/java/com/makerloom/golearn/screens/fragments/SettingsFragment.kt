@@ -1,6 +1,8 @@
 package com.makerloom.golearn.screens.fragments
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -14,7 +16,6 @@ import com.makerloom.golearn.screens.AddUniversityInfoActivity
 import com.makerloom.golearn.screens.AddUserInfoActivity
 import com.makerloom.golearn.screens.HomeActivity
 import com.makerloom.golearn.screens.WelcomeActivity
-import mehdi.sakout.fancybuttons.FancyButton
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,27 +61,37 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val editUniBtn = view.findViewById<FancyButton>(R.id.edit_uni_info_btn)
+        val editUniBtn = view.findViewById<View>(R.id.edit_uni_info_btn)
         editUniBtn.setOnClickListener {
             startActivity(Intent(this@SettingsFragment.activity, AddUniversityInfoActivity::class.java))
         }
 
-        val editUserBtn = view.findViewById<FancyButton>(R.id.edit_user_info_btn)
+        val editUserBtn = view.findViewById<View>(R.id.edit_user_info_btn)
         editUserBtn.setOnClickListener {
             startActivity(Intent(this@SettingsFragment.activity, AddUserInfoActivity::class.java))
         }
 
-        val signOutBtn = view.findViewById<FancyButton>(R.id.sign_out_btn)
+        val signOutBtn = view.findViewById<View>(R.id.sign_out_btn)
         signOutBtn.setOnClickListener {
-            try {
-                FirebaseAuth.getInstance().signOut()
-            }
-            catch (ex: Exception) {
-                ex.printStackTrace()
-            }
-            finally {
-                startActivity(Intent(this@SettingsFragment.activity, WelcomeActivity::class.java))
-            }
+            AlertDialog.Builder(this@SettingsFragment.activity)
+                    .setTitle("Sure?")
+                    .setMessage("Are you sure you want to sign out?")
+                    .setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, which ->
+                        try {
+                            FirebaseAuth.getInstance().signOut()
+                        }
+                        catch (ex: Exception) {
+                            ex.printStackTrace()
+                        }
+                        finally {
+                            startActivity(Intent(this@SettingsFragment.activity, WelcomeActivity::class.java))
+                        }
+                    })
+                    .setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                    })
+                    .create()
+                    .show()
         }
     }
 

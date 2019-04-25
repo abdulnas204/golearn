@@ -2,16 +2,68 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/files_list"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/line"
+            tools:listitem="@layout/listitem_file"
+            android:id="@+id/files_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scrollbars="vertical" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/files_list"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/save_all_btn"
+            android:background="@color/gray_light" />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/save_all_btn"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/custom_big_btn_padding_vertical"
+            android:paddingBottom="@dimen/custom_big_btn_padding_vertical"
+            android:paddingLeft="@dimen/custom_big_btn_padding_horizontal"
+            android:paddingRight="@dimen/custom_big_btn_padding_horizontal"
+            android:layout_margin="@dimen/custom_big_btn_margin"
+            fancy:fb_borderColor="@color/colorPrimary"
+            fancy:fb_borderWidth="2dp"
+            fancy:fb_defaultColor="@color/colorPrimary"
+            fancy:fb_focusColor="@color/white"
+            fancy:fb_radius="@dimen/custom_big_btn_radius"
+            android:text="DOWNLOAD ALL"
+            fancy:fb_iconPaddingRight="8dp"
+            fancy:fb_iconResource="@drawable/ic_file_download_white_24dp"
+            android:textAllCaps="false"
+            android:textSize="@dimen/custom_big_btn_text_size"
+            fancy:fb_textColor="@color/white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     <ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
-        style="@android:style/Widget.Holo.ProgressBar"
         android:layout_width="wrap_content"
         android:id="@+id/loading"
         android:layout_height="wrap_content"

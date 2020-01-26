@@ -17,4 +17,4 @@ The solution was a mobile app that allows students to form groups within which c
 + Synced class timetable  ⏲️
 
 ## Visual and UX design
-You can find documentation related to the visual design and ux design of the app from page 65 of the [project report](./assets/final-year-project-report.pdf).
+You can find documentation related to the visual design and ux design of the app from page 65 of the [project report](https://github.com/okibeogezi/golearn/raw/master/assets/final-year-project-report.pdf).
